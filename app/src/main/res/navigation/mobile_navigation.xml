@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_points">
+
+    <fragment
+        android:id="@+id/navigation_points"
+        android:name="com.vinivenditti.pointscards.ui.points.PointsFragment"
+        android:label="@string/title_points"
+        tools:layout="@layout/fragment_points" />
+
+    <fragment
+        android:id="@+id/navigation_score"
+        android:name="com.vinivenditti.pointscards.ui.score.ScoreFragment"
+        android:label="@string/title_score"
+        tools:layout="@layout/fragment_score" />
+</navigation>

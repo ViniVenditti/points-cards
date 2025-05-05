@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">PointsCards</string>
+    <string name="title_points">Pontos</string>
+    <string name="title_score">Placar</string>
+
+    <string-array name="list_games">
+        <item>bisca</item>
+        <item>cacheta</item>
+        <item>tranca/buraco</item>
+    </string-array>
+
+    <string-array name="number_players">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+</resources>
