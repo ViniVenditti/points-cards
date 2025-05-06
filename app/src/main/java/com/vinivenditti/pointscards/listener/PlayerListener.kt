@@ -1,5 +1,7 @@
 package com.vinivenditti.pointscards.listener
 
+import com.vinivenditti.pointscards.model.PlayerModel
+
 interface PlayerListener {
-    fun onStartGame()
+    fun updatePlayer(player: PlayerModel)
 }

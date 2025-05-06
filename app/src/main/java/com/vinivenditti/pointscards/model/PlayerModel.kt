@@ -3,6 +3,8 @@ package com.vinivenditti.pointscards.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import org.jetbrains.annotations.NotNull
+import java.time.LocalDate
 
 @Entity(tableName = "matches")
 class PlayerModel(
@@ -11,17 +13,20 @@ class PlayerModel(
     val id: Int? = null,
 
     @ColumnInfo(name = "date")
-    val date: String? = null,
+    val date: String = LocalDate.now().toString(),
+
+    @ColumnInfo(name = "match")
+    val match: Int? = null,
 
     @ColumnInfo(name = "name")
-    val name: String? = null,
+    val name: String,
 
     @ColumnInfo(name = "doing")
-    var doing: Int? = null,
+    var doing: Int = 0,
 
     @ColumnInfo(name = "done")
-    var done: Int? = null,
+    var done: Int = 0,
 
     @ColumnInfo(name = "score")
-    var score: Int? = null
+    var score: Int = 0
 )

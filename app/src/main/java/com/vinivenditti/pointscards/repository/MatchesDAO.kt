@@ -18,4 +18,7 @@ interface MatchesDAO {
     @Insert
     suspend fun savePoints(playerModel: PlayerModel)
 
+    @Insert
+    suspend fun savePlayer(playerModel: PlayerModel)
+
 }

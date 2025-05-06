@@ -22,7 +22,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editFaz"
+            android:id="@+id/edit_doing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editFez"
+            android:id="@+id/edit_done"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Fez"
@@ -46,7 +46,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/textPontos"
+        android:id="@+id/text_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"

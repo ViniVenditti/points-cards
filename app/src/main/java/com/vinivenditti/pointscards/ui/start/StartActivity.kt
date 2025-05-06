@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.MainActivity
@@ -19,50 +17,45 @@ import com.vinivenditti.pointscards.ui.adapter.PlayerAdapter
 
 class StartActivity : AppCompatActivity() {
     private val binding: ActivityStartBinding by lazy { ActivityStartBinding.inflate(layoutInflater) }
-    private var adapter: PlayerAdapter = PlayerAdapter(3, this)
-    private val startViewModel: StartViewModel by viewModels()
+    private lateinit var adapter: PlayerAdapter
+    private lateinit var startViewModel: StartViewModel
+    private var match = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        startViewModel = StartViewModelSingleton.getInstance(this)
+
+        adapter = PlayerAdapter(3, startViewModel, match)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        setListeners()
-
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewPlayers.adapter = adapter
+
+        setListeners()
     }
 
     private fun setListeners() {
-        binding.buttonPlay.setOnClickListener {
-            handleSave()
-            val intent = Intent(this, MainActivity::class.java)
-            val bundle = Bundle()
-            bundle.putString("game", binding.spinnerGame.selectedItem.toString())
-            intent.putExtras(bundle)
-            startActivity(intent)
-        }
-
         binding.spinnerPlayers.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                val qtdJogadores = pos + 3
+                val playersCount = pos + 3
                 val rv: RecyclerView = binding.recyclerViewPlayers
-                adapter = PlayerAdapter(qtdJogadores, this@StartActivity)
+                adapter = PlayerAdapter(playersCount, startViewModel, match)
                 rv.setHasFixedSize(false)
                 rv.adapter = adapter
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
+        binding.buttonPlay.setOnClickListener {
+            match++
+            //startViewModel.savePlayers()
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
     }
-
-    private fun handleSave() {
-        startViewModel.savePoints()
-    }
-
-
 }
