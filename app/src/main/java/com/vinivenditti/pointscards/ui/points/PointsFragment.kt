@@ -18,7 +18,7 @@ import com.vinivenditti.pointscards.ui.start.StartViewModelSingleton
 class PointsFragment : Fragment() {
 
     private var _binding: FragmentPointsBinding? = null
-    private lateinit var adapter: PlayerGameAdapter
+    private val adapter: PlayerGameAdapter = PlayerGameAdapter()
     private lateinit var startViewModel: StartViewModel
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -31,14 +31,11 @@ class PointsFragment : Fragment() {
     ): View {
         _binding = FragmentPointsBinding.inflate(inflater, container, false)
         startViewModel = StartViewModelSingleton.getInstance(requireActivity())
-        val list = startViewModel.players.map {
-            it.values.toList()
-        }
-        adapter = PlayerGameAdapter(list.value!!)
+        adapter.updateGame(startViewModel.players.value!!)
+
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewPlayers.adapter = adapter
 
-        val viewHolder = binding.recyclerViewPlayers.findViewHolderForAdapterPosition(0)
 
         addListeners()
 
@@ -47,11 +44,19 @@ class PointsFragment : Fragment() {
 
     private fun addListeners() {
         binding.buttonCalculate.setOnClickListener {
-            val viewHolder =
             startViewModel.calculatePoints()
+            adapter.updateGame(startViewModel.players.value!!)
+            resetEditTextFields()
         }
     }
 
+    fun resetEditTextFields() {
+        val recyclerView = binding.recyclerViewPlayers
+        for (i in 0 until recyclerView.childCount) {
+            val viewHolder = recyclerView.findViewHolderForAdapterPosition(i) as? PlayerGameAdapter.PlayerGameViewHolder
+            viewHolder?.resetEditTextFields()
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

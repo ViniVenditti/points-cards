@@ -19,9 +19,9 @@ class PlayerRepository private constructor(context: Context) {
         }
     }
 
-    suspend fun savePlayers(players: Map<Int, PlayerModel>) {
+    suspend fun savePlayers(players: List<PlayerModel>) {
         players.forEach {
-            database.savePlayer(it.value)
+            database.savePlayer(it)
         }
     }
 

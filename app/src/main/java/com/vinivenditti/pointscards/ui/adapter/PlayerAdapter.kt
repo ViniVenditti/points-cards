@@ -22,19 +22,19 @@ class PlayerAdapter(var players: Int, private val viewModel: StartViewModel, var
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(position)
+        holder.bind()
         holder.item.editTextPlayer.hint = "Jogador ${position + 1}"
     }
 
     override fun getItemCount(): Int = players
 
     inner class ViewHolder(internal val item: PlayerLayoutBinding): RecyclerView.ViewHolder(item.root) {
-        fun bind(position: Int) {
+        fun bind() {
             item.editTextPlayer.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
-                    viewModel.addPlayer(position, PlayerModel(name = s.toString(), match = match))
+                    viewModel.addPlayer(PlayerModel(name = s.toString(), match = match))
                 }
             })
         }

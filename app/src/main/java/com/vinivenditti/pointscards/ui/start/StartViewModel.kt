@@ -14,12 +14,12 @@ import kotlinx.coroutines.launch
 class StartViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = PlayerRepository.getInstance(application)
 
-    private val _players = MutableLiveData<Map<Int, PlayerModel>>()
-    val players: LiveData<Map<Int, PlayerModel>> = _players
+    private val _players = MutableLiveData<List<PlayerModel>>()
+    val players: LiveData<List<PlayerModel>> = _players
 
-    fun addPlayer(pos: Int, player: PlayerModel) {
-        val currentList = _players.value ?: mutableMapOf()
-        val newList = currentList.plus(Pair(pos, player))
+    fun addPlayer(player: PlayerModel) {
+        val currentList = _players.value ?: mutableListOf()
+        val newList = currentList.plus(player)
         _players.value = newList
     }
 
@@ -29,9 +29,24 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun updatePlayer(player: PlayerModel) {
+        _players.value = _players.value!!.map {
+            if (it.name == player.name) {
+                player
+            } else {
+                it
+            }
+        }
+    }
+
     fun calculatePoints() {
         for (player in _players.value!!) {
-            player.value.
+            if (player.doing == player.done){
+                player.score += player.done + 10
+            } else {
+                player.score += player.done
+            }
+            updatePlayer(player)
         }
     }
 }
