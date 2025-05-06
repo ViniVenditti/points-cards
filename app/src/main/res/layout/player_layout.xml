@@ -20,6 +20,7 @@
                 android:id="@+id/edit_text_player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:singleLine="true"
                 android:hint="Jogador" />
 
         </com.google.android.material.textfield.TextInputLayout>

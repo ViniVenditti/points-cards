@@ -2,6 +2,7 @@ package com.vinivenditti.pointscards.ui.adapter
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -30,13 +31,12 @@ class PlayerAdapter(var players: Int, private val viewModel: StartViewModel, var
 
     inner class ViewHolder(internal val item: PlayerLayoutBinding): RecyclerView.ViewHolder(item.root) {
         fun bind() {
-            item.editTextPlayer.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    viewModel.addPlayer(PlayerModel(name = s.toString(), match = match))
+            item.editTextPlayer.setOnKeyListener { v, keyCode, event ->
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER) && !item.editTextPlayer.text.toString().isEmpty()) {
+                    viewModel.addPlayer(PlayerModel(name = item.editTextPlayer.text.toString(), match = match))
                 }
-            })
+                false
+            }
         }
     }
 }

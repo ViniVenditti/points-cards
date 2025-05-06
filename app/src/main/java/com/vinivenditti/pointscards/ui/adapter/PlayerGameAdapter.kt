@@ -2,7 +2,9 @@ package com.vinivenditti.pointscards.ui.adapter
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -37,20 +39,21 @@ class PlayerGameAdapter: RecyclerView.Adapter<PlayerGameAdapter.PlayerGameViewHo
 
         fun bind(playerModel: PlayerModel) {
             item.textPlayer.text = playerModel.name
-            item.editDone.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    if (!s.toString().isEmpty()) {
-                        startViewModel.updatePlayer(PlayerModel(name = playerModel.name, done = s.toString().toInt(), doing = item.editDoing.text.toString().toInt()))
-                    }
-                }
-            })
-        }
-
-        fun resetEditTextFields() {
+            item.textPoints.text = playerModel.score.toString()
             item.editDone.setText("")
             item.editDoing.setText("")
+
+            item.editDone.setOnKeyListener { v, keyCode, event ->
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER) && !item.editDone.text.toString().isEmpty()) {
+                    startViewModel.updatePlayer(PlayerModel(
+                        name = playerModel.name,
+                        done = item.editDone.text.toString().toInt(),
+                        doing = item.editDoing.text.toString().toInt(),
+                        score = playerModel.score
+                    ))
+                }
+                false
+            }
         }
     }
 }

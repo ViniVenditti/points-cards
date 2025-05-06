@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:hint="Faz"
+            android:singleLine="true"
             android:inputType="number"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -41,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Fez"
+            android:singleLine="true"
             android:inputType="number"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -23,6 +23,14 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
         _players.value = newList
     }
 
+    fun resetPlayers(){
+        _players.value = mutableListOf()
+    }
+
+    fun getFinalPlayer(): List<PlayerModel> {
+        return _players.value!!.sortedByDescending { it.score }
+    }
+
     fun savePlayers() {
         viewModelScope.launch {
             repository.savePlayers(_players.value!!)
@@ -30,13 +38,15 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun updatePlayer(player: PlayerModel) {
-        _players.value = _players.value!!.map {
+        val currentList = _players.value ?: mutableListOf()
+        val newList = currentList.map {
             if (it.name == player.name) {
                 player
             } else {
                 it
             }
         }
+        _players.value = newList
     }
 
     fun calculatePoints() {

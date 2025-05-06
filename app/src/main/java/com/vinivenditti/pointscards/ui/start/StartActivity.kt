@@ -3,6 +3,7 @@ package com.vinivenditti.pointscards.ui.start
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.AdapterView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,7 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+
         startViewModel = StartViewModelSingleton.getInstance(this)
 
         adapter = PlayerAdapter(3, startViewModel, match)
@@ -42,11 +44,7 @@ class StartActivity : AppCompatActivity() {
     private fun setListeners() {
         binding.spinnerPlayers.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                val playersCount = pos + 3
-                val rv: RecyclerView = binding.recyclerViewPlayers
-                adapter = PlayerAdapter(playersCount, startViewModel, match)
-                rv.setHasFixedSize(false)
-                rv.adapter = adapter
+                uploadRecyclerView(pos + 3)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -54,8 +52,15 @@ class StartActivity : AppCompatActivity() {
         binding.buttonPlay.setOnClickListener {
             match++
             //startViewModel.savePlayers()
+            uploadRecyclerView(3)
             startActivity(Intent(this, MainActivity::class.java))
         }
+    }
 
+    fun uploadRecyclerView(playersCount: Int){
+        val rv: RecyclerView = binding.recyclerViewPlayers
+        adapter = PlayerAdapter(playersCount, startViewModel, match)
+        rv.setHasFixedSize(false)
+        rv.adapter = adapter
     }
 }

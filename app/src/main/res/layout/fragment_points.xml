@@ -28,22 +28,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Rodada número: "
-        android:textSize="22sp"
+        android:text="Rodada 1"
         android:textColor="@color/md_theme_primary"
-        app:layout_constraintEnd_toStartOf="@+id/text_round_number"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@+id/text_round_direction"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_game" />
 
     <TextView
-        android:id="@+id/text_round_number"
+        android:id="@+id/text_round_direction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="1"
-        android:textSize="22sp"
+        android:text="subindo"
         android:textColor="@color/md_theme_primary"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/text_round"
         app:layout_constraintTop_toBottomOf="@+id/text_game" />
@@ -51,26 +51,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_players"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_calculate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_round" />
-
-    <Button
-        android:id="@+id/button_reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="@color/md_theme_primary"
-        android:padding="8dp"
-        android:text="Restart Game"
-        android:textColor="@color/md_theme_inverseOnSurface_highContrast"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toStartOf="@id/button_calculate"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_view_players" />
 
     <Button
         android:id="@+id/button_calculate"
@@ -82,8 +69,8 @@
         android:text="Calcular"
         android:textColor="@color/md_theme_inverseOnSurface_highContrast"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/button_reset"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycler_view_players" />
 </androidx.constraintlayout.widget.ConstraintLayout>
