@@ -91,6 +91,10 @@ class PointsFragment : Fragment() {
                 round--
             }
         }
+
+        if(round == -1) {
+            binding.buttonCalculate.isEnabled = false
+        }
     }
 
 
