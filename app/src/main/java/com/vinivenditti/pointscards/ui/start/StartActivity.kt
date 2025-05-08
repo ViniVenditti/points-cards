@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -26,6 +27,7 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         startViewModel = StartViewModelSingleton.getInstance(this)
 
@@ -52,8 +54,12 @@ class StartActivity : AppCompatActivity() {
         binding.buttonPlay.setOnClickListener {
             match++
             //startViewModel.savePlayers()
-            uploadRecyclerView(3)
-            startActivity(Intent(this, MainActivity::class.java))
+            if (startViewModel.players.value.isNullOrEmpty()){
+                Toast.makeText(this, "Preenha os nomes dos jogadores", Toast.LENGTH_LONG).show()
+            }else{
+                uploadRecyclerView(3)
+                startActivity(Intent(this, MainActivity::class.java))
+            }
         }
     }
 
