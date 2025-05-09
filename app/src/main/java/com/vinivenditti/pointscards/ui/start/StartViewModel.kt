@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vinivenditti.pointscards.model.PlayerCachetaModel
 import com.vinivenditti.pointscards.model.PlayerModel
 import com.vinivenditti.pointscards.repository.PlayerRepository
 import kotlinx.coroutines.launch
@@ -14,8 +15,17 @@ import kotlinx.coroutines.launch
 class StartViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = PlayerRepository.getInstance(application)
 
+    private val _playersCacheta = MutableLiveData<List<PlayerCachetaModel>>()
+    val playersCacheta: LiveData<List<PlayerCachetaModel>> = _playersCacheta
+
     private val _players = MutableLiveData<List<PlayerModel>>()
     val players: LiveData<List<PlayerModel>> = _players
+
+    fun addPlayerCacheta(player: PlayerCachetaModel) {
+        val currentList = _playersCacheta.value ?: mutableListOf()
+        val newList = currentList.plus(player)
+        _playersCacheta.value = newList
+    }
 
     fun addPlayer(player: PlayerModel) {
         val currentList = _players.value ?: mutableListOf()
@@ -25,6 +35,7 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
 
     fun resetPlayers(){
         _players.value = mutableListOf()
+        _playersCacheta.value = mutableListOf()
     }
 
     fun getFinalPlayer(): List<PlayerModel> {

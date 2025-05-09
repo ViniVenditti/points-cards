@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.databinding.PlayerLayoutBinding
+import com.vinivenditti.pointscards.model.PlayerCachetaModel
 import com.vinivenditti.pointscards.model.PlayerModel
 import com.vinivenditti.pointscards.ui.start.StartViewModel
 
@@ -30,6 +31,7 @@ class PlayerAdapter(var players: Int, private val viewModel: StartViewModel, var
             item.editTextPlayer.setOnKeyListener { v, keyCode, event ->
                 if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER) && !item.editTextPlayer.text.toString().isEmpty()) {
                     viewModel.addPlayer(PlayerModel(name = item.editTextPlayer.text.toString(), match = match))
+                    viewModel.addPlayerCacheta(PlayerCachetaModel(item.editTextPlayer.text.toString(), false, 10))
                 }
                 false
             }

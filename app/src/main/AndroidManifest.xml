@@ -14,6 +14,9 @@
         android:windowSoftInputMode="adjustNothing"
         tools:targetApi="31">
         <activity
+            android:name=".ui.cacheta.CachetaActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.truco.TrucoActivity"
             android:exported="true" />
         <activity

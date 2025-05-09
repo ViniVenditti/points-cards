@@ -16,6 +16,7 @@ import com.vinivenditti.pointscards.ui.bisca.BiscaActivity
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.ActivityStartBinding
 import com.vinivenditti.pointscards.ui.bisca.adapter.PlayerAdapter
+import com.vinivenditti.pointscards.ui.cacheta.CachetaActivity
 import com.vinivenditti.pointscards.ui.truco.TrucoActivity
 
 class StartActivity : AppCompatActivity() {
@@ -63,26 +64,27 @@ class StartActivity : AppCompatActivity() {
         }
         binding.spinnerPlayers.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View,
-                    pos: Int,
-                    id: Long
-                ) {
+                override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
                     uploadRecyclerView(pos + 3)
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
         binding.buttonPlay.setOnClickListener {
             match++
-            //startViewModel.savePlayers()
             if (startViewModel.players.value.isNullOrEmpty()) {
                 Toast.makeText(this, "Preenha os nomes dos jogadores", Toast.LENGTH_LONG).show()
             } else {
+            //startViewModel.savePlayers()
                 uploadRecyclerView(3)
-                startActivity(Intent(this, BiscaActivity::class.java))
+                when(binding.spinnerGame.selectedItemPosition){
+                    0 -> {
+                        startActivity(Intent(this, BiscaActivity::class.java))
+                    }
+                    1 -> {
+                        startActivity(Intent(this, CachetaActivity::class.java))
+                    }
+                }
             }
         }
     }
