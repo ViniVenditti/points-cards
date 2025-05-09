@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_points"
-        android:name="com.vinivenditti.pointscards.ui.points.PointsFragment"
+        android:name="com.vinivenditti.pointscards.ui.bisca.points.PointsFragment"
         android:label="@string/title_points"
         tools:layout="@layout/fragment_points" />
 
     <fragment
         android:id="@+id/navigation_score"
-        android:name="com.vinivenditti.pointscards.ui.score.ScoreFragment"
+        android:name="com.vinivenditti.pointscards.ui.bisca.score.ScoreFragment"
         android:label="@string/title_score"
         tools:layout="@layout/fragment_score" />
 </navigation>

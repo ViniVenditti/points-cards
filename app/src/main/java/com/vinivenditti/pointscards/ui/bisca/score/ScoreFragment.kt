@@ -1,10 +1,9 @@
-package com.vinivenditti.pointscards.ui.score
+package com.vinivenditti.pointscards.ui.bisca.score
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.vinivenditti.pointscards.databinding.FragmentScoreBinding
@@ -23,15 +22,12 @@ class ScoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val scoreViewModel =
-            ViewModelProvider(this).get(ScoreViewModel::class.java)
+            ViewModelProvider(this)[ScoreViewModel::class.java]
 
         _binding = FragmentScoreBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        scoreViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+
         return root
     }
 

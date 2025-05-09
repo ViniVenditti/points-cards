@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="truco_points" parent="AppTheme" >
+        <item name="android:background">@drawable/container_truco_points</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingEnd">22dp</item>
+        <item name="android:paddingStart">22dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

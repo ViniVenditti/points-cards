@@ -3,19 +3,20 @@ package com.vinivenditti.pointscards.ui.start
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.vinivenditti.pointscards.MainActivity
+import com.vinivenditti.pointscards.ui.bisca.BiscaActivity
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.ActivityStartBinding
-import com.vinivenditti.pointscards.ui.adapter.PlayerAdapter
+import com.vinivenditti.pointscards.ui.bisca.adapter.PlayerAdapter
+import com.vinivenditti.pointscards.ui.truco.TrucoActivity
 
 class StartActivity : AppCompatActivity() {
     private val binding: ActivityStartBinding by lazy { ActivityStartBinding.inflate(layoutInflater) }
@@ -44,26 +45,49 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun setListeners() {
-        binding.spinnerPlayers.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spinnerGame.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                uploadRecyclerView(pos + 3)
+                when (pos) {
+                    3 -> AlertDialog.Builder(this@StartActivity)
+                        .setTitle("Jogar Truco?")
+                        .setMessage("Deseja iniciar um jogo de truco?")
+                        .setPositiveButton("Sim") { _, _ ->
+                            startActivity(Intent(this@StartActivity, TrucoActivity::class.java))
+                        }
+                        .setNegativeButton("Não", null)
+                        .show()
+                }
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+        binding.spinnerPlayers.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    pos: Int,
+                    id: Long
+                ) {
+                    uploadRecyclerView(pos + 3)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
 
         binding.buttonPlay.setOnClickListener {
             match++
             //startViewModel.savePlayers()
-            if (startViewModel.players.value.isNullOrEmpty()){
+            if (startViewModel.players.value.isNullOrEmpty()) {
                 Toast.makeText(this, "Preenha os nomes dos jogadores", Toast.LENGTH_LONG).show()
-            }else{
+            } else {
                 uploadRecyclerView(3)
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, BiscaActivity::class.java))
             }
         }
     }
 
-    fun uploadRecyclerView(playersCount: Int){
+    fun uploadRecyclerView(playersCount: Int) {
         val rv: RecyclerView = binding.recyclerViewPlayers
         adapter = PlayerAdapter(playersCount, startViewModel, match)
         rv.setHasFixedSize(false)

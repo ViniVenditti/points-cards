@@ -1,4 +1,4 @@
-package com.vinivenditti.pointscards.ui.score
+package com.vinivenditti.pointscards.ui.bisca.score
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.vinivenditti.pointscards.ui.points
+package com.vinivenditti.pointscards.ui.bisca.points
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,14 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinivenditti.pointscards.databinding.FragmentPointsBinding
-import com.vinivenditti.pointscards.ui.adapter.PlayerGameAdapter
+import com.vinivenditti.pointscards.ui.bisca.adapter.PlayerGameAdapter
 import com.vinivenditti.pointscards.ui.start.StartViewModel
 import com.vinivenditti.pointscards.ui.start.StartViewModelSingleton
 
@@ -38,20 +34,6 @@ class PointsFragment : Fragment() {
 
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewPlayers.adapter = adapter
-
-        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Sair do jogo")
-                    .setMessage("Deseja sair do jogo?")
-                    .setPositiveButton("Sim") { _, _ ->
-                        startViewModel.resetPlayers()
-                        requireActivity().finish()
-                    }
-                    .setNegativeButton("Não", null)
-                    .show()
-            }
-        })
 
         addListeners()
 

@@ -1,4 +1,4 @@
-package com.vinivenditti.pointscards.ui.adapter
+package com.vinivenditti.pointscards.ui.bisca.adapter
 
 import android.text.Editable
 import android.text.TextWatcher

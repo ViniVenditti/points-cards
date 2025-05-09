@@ -1,11 +1,7 @@
-package com.vinivenditti.pointscards.ui.adapter
+package com.vinivenditti.pointscards.ui.bisca.adapter
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
-import android.view.View
-import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.databinding.PlayerLayoutBinding
