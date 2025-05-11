@@ -32,7 +32,7 @@ class CachetaActivity : AppCompatActivity() {
         }
         startViewModel = StartViewModelSingleton.getInstance(this)
 
-        adapter = CachetaAdapter(startViewModel.playersCacheta.value!!)
+        adapter = CachetaAdapter(startViewModel)
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewPlayers.adapter = adapter
 

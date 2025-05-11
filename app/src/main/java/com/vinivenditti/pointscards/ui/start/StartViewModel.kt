@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vinivenditti.pointscards.model.PlayerCachetaModel
 import com.vinivenditti.pointscards.model.PlayerModel
@@ -68,6 +67,36 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
                 player.score += player.done
             }
             updatePlayer(player)
+        }
+    }
+
+    fun updateCachetaPlayer(player: PlayerCachetaModel) {
+        val currentList = _playersCacheta.value ?: mutableListOf()
+        val newList = currentList.map {
+            if (it.name == player.name) {
+                player
+            } else {
+                it
+            }
+        }
+        _playersCacheta.value = newList
+    }
+
+    fun calculateCachetaPoints(player: PlayerCachetaModel) {
+        _playersCacheta.value!!.forEach {
+            when (it.name) {
+                player.name -> {
+                    it.points = player.points
+                }
+                else -> {
+                    if(it.played) {
+                        it.points = it.points-2
+                    } else {
+                        it.points = it.points-1
+                    }
+                }
+            }
+            it.played = false
         }
     }
 }
