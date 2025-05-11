@@ -33,7 +33,7 @@ class StartActivity : AppCompatActivity() {
 
         startViewModel = StartViewModelSingleton.getInstance(this)
 
-        adapter = PlayerAdapter(3, startViewModel, match)
+        adapter = PlayerAdapter(2, startViewModel, match)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -65,7 +65,7 @@ class StartActivity : AppCompatActivity() {
         binding.spinnerPlayers.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
-                    uploadRecyclerView(pos + 3)
+                    uploadRecyclerView(pos + 2)
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
@@ -76,7 +76,7 @@ class StartActivity : AppCompatActivity() {
                 Toast.makeText(this, "Preenha os nomes dos jogadores", Toast.LENGTH_LONG).show()
             } else {
             //startViewModel.savePlayers()
-                uploadRecyclerView(3)
+                uploadRecyclerView(2)
                 when(binding.spinnerGame.selectedItemPosition){
                     0 -> {
                         startActivity(Intent(this, BiscaActivity::class.java))
