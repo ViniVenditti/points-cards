@@ -42,59 +42,15 @@
         app:layout_constraintStart_toEndOf="@+id/text_we"
         app:layout_constraintTop_toBottomOf="@+id/text_game" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_we"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_we_total"
-        app:layout_constraintEnd_toStartOf="@+id/recyclerview_them"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_we" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_them"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_them_total"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/recyclerview_we"
-        app:layout_constraintTop_toBottomOf="@+id/text_them" />
-
-    <TextView
-        android:id="@+id/text_we_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="total: 0"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_input_we_points"
-        app:layout_constraintEnd_toStartOf="@+id/text_them_total"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerview_we" />
-
-    <TextView
-        android:id="@+id/text_them_total"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="total: 0"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_input_them_points"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/text_we_total"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerview_them" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_we_points"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_calculate"
         app:layout_constraintEnd_toStartOf="@+id/text_input_them_points"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_we_total"
-        app:layout_constraintHorizontal_chainStyle="spread">
+        app:layout_constraintTop_toBottomOf="@+id/text_we">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_we_points"
@@ -112,10 +68,9 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_calculate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/text_input_we_points"
-        app:layout_constraintTop_toBottomOf="@+id/text_them_total">
+        app:layout_constraintTop_toBottomOf="@+id/text_them">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_them_points"
@@ -127,6 +82,49 @@
             android:singleLine="true"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/text_we_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="total: 0"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@id/recyclerview_we"
+        app:layout_constraintEnd_toStartOf="@+id/text_them_total"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_input_we_points" />
+
+    <TextView
+        android:id="@+id/text_them_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="total: 0"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_we_total"
+        app:layout_constraintBottom_toTopOf="@id/recyclerview_them"
+        app:layout_constraintTop_toBottomOf="@+id/text_input_them_points" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_we"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_calculate"
+        app:layout_constraintEnd_toStartOf="@+id/recyclerview_them"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_we_total" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_them"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_calculate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recyclerview_we"
+        app:layout_constraintTop_toBottomOf="@+id/text_them_total" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_calculate"
@@ -140,6 +138,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_we_points" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerview_we" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
