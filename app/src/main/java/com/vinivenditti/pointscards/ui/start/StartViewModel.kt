@@ -5,9 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.android.material.color.utilities.Score
 import com.vinivenditti.pointscards.model.PlayerCachetaModel
 import com.vinivenditti.pointscards.model.PlayerModel
 import com.vinivenditti.pointscards.repository.PlayerRepository
+import com.vinivenditti.pointscards.ui.bisca.score.ScoreViewModel
 import kotlinx.coroutines.launch
 
 
@@ -19,6 +21,7 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _players = MutableLiveData<List<PlayerModel>>()
     val players: LiveData<List<PlayerModel>> = _players
+
 
     fun addPlayerCacheta(player: PlayerCachetaModel) {
         val currentList = _playersCacheta.value ?: mutableListOf()
@@ -47,7 +50,7 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun updatePlayer(player: PlayerModel) {
+    fun updatePlayer(player: PlayerModel, calculate: Boolean) {
         val currentList = _players.value ?: mutableListOf()
         val newList = currentList.map {
             if (it.name == player.name) {
@@ -66,7 +69,7 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
             } else {
                 player.score += player.done
             }
-            updatePlayer(player)
+            updatePlayer(player, true)
         }
     }
 

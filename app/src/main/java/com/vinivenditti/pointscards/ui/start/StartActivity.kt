@@ -17,6 +17,7 @@ import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.ActivityStartBinding
 import com.vinivenditti.pointscards.ui.bisca.adapter.PlayerAdapter
 import com.vinivenditti.pointscards.ui.cacheta.CachetaActivity
+import com.vinivenditti.pointscards.ui.tranca.TrancaActivity
 import com.vinivenditti.pointscards.ui.truco.TrucoActivity
 
 class StartActivity : AppCompatActivity() {
@@ -49,6 +50,14 @@ class StartActivity : AppCompatActivity() {
         binding.spinnerGame.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
                 when (pos) {
+                    2 -> AlertDialog.Builder(this@StartActivity)
+                        .setTitle("Jogar Tranca/Buraco?")
+                        .setMessage("Deseja iniciar um jogo de tranca/buraco?")
+                        .setPositiveButton("Sim") { _, _ ->
+                            startActivity(Intent(this@StartActivity, TrancaActivity::class.java))
+                        }
+                        .setNegativeButton("Não", null)
+                        .show()
                     3 -> AlertDialog.Builder(this@StartActivity)
                         .setTitle("Jogar Truco?")
                         .setMessage("Deseja iniciar um jogo de truco?")

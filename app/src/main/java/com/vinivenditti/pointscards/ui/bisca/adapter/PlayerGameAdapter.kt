@@ -1,10 +1,7 @@
 package com.vinivenditti.pointscards.ui.bisca.adapter
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
-import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -45,12 +42,14 @@ class PlayerGameAdapter: RecyclerView.Adapter<PlayerGameAdapter.PlayerGameViewHo
 
             item.editDone.setOnKeyListener { v, keyCode, event ->
                 if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER) && !item.editDone.text.toString().isEmpty()) {
-                    startViewModel.updatePlayer(PlayerModel(
-                        name = playerModel.name,
-                        done = item.editDone.text.toString().toInt(),
-                        doing = item.editDoing.text.toString().toInt(),
-                        score = playerModel.score
-                    ))
+                    startViewModel.updatePlayer(
+                        PlayerModel(
+                            name = playerModel.name,
+                            done = item.editDone.text.toString().toInt(),
+                            doing = item.editDoing.text.toString().toInt(),
+                            score = playerModel.score
+                        ), false
+                    )
                 }
                 false
             }
