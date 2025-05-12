@@ -18,10 +18,11 @@ class PointsFragment : Fragment() {
     private var _binding: FragmentPointsBinding? = null
     private val adapter: PlayerGameAdapter = PlayerGameAdapter()
     private lateinit var startViewModel: StartViewModel
+    private val pointsViewModel: PointsViewModel = PointsViewModel()
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private var round: Int = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,55 +31,37 @@ class PointsFragment : Fragment() {
     ): View {
         _binding = FragmentPointsBinding.inflate(inflater, container, false)
         startViewModel = StartViewModelSingleton.getInstance(requireActivity())
+
         adapter.updateGame(startViewModel.players.value!!)
 
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewPlayers.adapter = adapter
+        pointsViewModel.calculateTotalRounds(startViewModel.players.value!!)
 
         addListeners()
-
+        observe()
         return binding.root
     }
 
     private fun addListeners() {
         binding.buttonCalculate.setOnClickListener {
-            calculateRound()
+            pointsViewModel.calculateRound()
             startViewModel.calculatePoints()
             adapter.updateGame(startViewModel.players.value!!)
         }
     }
 
-    private fun calculateRound() {
-        val limitRound: Int
-        when (52 % startViewModel.players.value!!.size) {
-            0 -> limitRound = (52 / startViewModel.players.value!!.size)-1
-            else -> limitRound = (52 / startViewModel.players.value!!.size)
-        }
-
-        when (binding.textRoundDirection.text){
-            "subindo" -> {
-                round++
-                binding.textRound.text = "Rodada $round"
-                if (round == limitRound) {
-                    binding.textRoundDirection.text = "repetir"
-                }
-            }
-            "repetir" -> {
-                binding.textRound.text = "Rodada $round"
-                round--
-                binding.textRoundDirection.text = "descendo"
-            }
-            else -> {
-                binding.textRound.text = "Rodada $round"
-                round--
+    fun observe() {
+        pointsViewModel.round.observe(viewLifecycleOwner) {
+            binding.textRound.text = "Rodada $it"
+            if (it == 0) {
+                binding.buttonCalculate.isEnabled = false
             }
         }
-
-        if(round == -1) {
-            binding.buttonCalculate.isEnabled = false
+        pointsViewModel.statusGame.observe(viewLifecycleOwner) {
+            binding.textRoundDirection.text = it
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
