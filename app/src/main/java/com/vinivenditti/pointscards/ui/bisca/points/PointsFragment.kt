@@ -4,20 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinivenditti.pointscards.databinding.FragmentPointsBinding
+import com.vinivenditti.pointscards.model.PlayerModel
+import com.vinivenditti.pointscards.ui.bisca.BiscaViewModel
 import com.vinivenditti.pointscards.ui.bisca.adapter.PlayerGameAdapter
+import com.vinivenditti.pointscards.ui.bisca.listener.BiscaListener
 import com.vinivenditti.pointscards.ui.start.StartViewModel
 import com.vinivenditti.pointscards.ui.start.StartViewModelSingleton
+import com.vinivenditti.pointscards.ui.start.adapter.PlayerAdapter
 
 class PointsFragment : Fragment() {
 
     private var _binding: FragmentPointsBinding? = null
     private val adapter: PlayerGameAdapter = PlayerGameAdapter()
-    private lateinit var startViewModel: StartViewModel
+    private val biscaViewModel: BiscaViewModel by lazy {
+        BiscaViewModel(
+            StartViewModelSingleton.getInstance(
+                requireActivity()
+            )
+        )
+    }
     private val pointsViewModel: PointsViewModel = PointsViewModel()
 
     // This property is only valid between onCreateView and
@@ -30,14 +41,17 @@ class PointsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentPointsBinding.inflate(inflater, container, false)
-        startViewModel = StartViewModelSingleton.getInstance(requireActivity())
-
-        adapter.updateGame(startViewModel.players.value!!)
 
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewPlayers.adapter = adapter
-        pointsViewModel.calculateTotalRounds(startViewModel.players.value!!)
 
+        val listener = object : BiscaListener {
+            override fun updatePlayer(player: PlayerModel) {
+                biscaViewModel.updatePlayer(player)
+            }
+        }
+        pointsViewModel.calculateTotalRounds(biscaViewModel.players.value!!)
+        adapter.attachListener(listener)
         addListeners()
         observe()
         return binding.root
@@ -45,10 +59,22 @@ class PointsFragment : Fragment() {
 
     private fun addListeners() {
         binding.buttonCalculate.setOnClickListener {
-            pointsViewModel.calculateRound()
-            startViewModel.calculatePoints()
-            adapter.updateGame(startViewModel.players.value!!)
+            if(verifyEditText()){
+                pointsViewModel.calculateRound()
+                biscaViewModel.calculatePoints()
+            } else Toast.makeText(context, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun verifyEditText(): Boolean {
+        for (i in 0 until binding.recyclerViewPlayers.childCount) {
+            val viewHolder = binding.recyclerViewPlayers.findViewHolderForAdapterPosition(i) as? PlayerGameAdapter.PlayerGameViewHolder
+            viewHolder?.let {
+                if(it.item.editDoing.text.toString().trim().isEmpty() ||
+                it.item.editDone.text.toString().trim().isEmpty()) return false
+            }
+        }
+        return true
     }
 
     fun observe() {
@@ -60,6 +86,11 @@ class PointsFragment : Fragment() {
         }
         pointsViewModel.statusGame.observe(viewLifecycleOwner) {
             binding.textRoundDirection.text = it
+        }
+        biscaViewModel.players.observe(viewLifecycleOwner) {
+            binding.recyclerViewPlayers.post {
+                adapter.updateList(it)
+            }
         }
     }
 

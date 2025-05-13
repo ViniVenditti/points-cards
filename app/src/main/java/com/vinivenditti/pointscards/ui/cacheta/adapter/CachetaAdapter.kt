@@ -5,44 +5,54 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.PlayersCachetaLayoutBinding
+import com.vinivenditti.pointscards.ui.cacheta.listener.CachetaListener
 import com.vinivenditti.pointscards.model.PlayerCachetaModel
-import com.vinivenditti.pointscards.ui.start.StartViewModel
 
-class CachetaAdapter(private val startViewModel: StartViewModel): RecyclerView.Adapter<CachetaAdapter.CachetaViewHolder>() {
+class CachetaAdapter: RecyclerView.Adapter<CachetaAdapter.CachetaViewHolder>() {
+    private var listPlayers = listOf<PlayerCachetaModel>()
+    private lateinit var listener: CachetaListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CachetaViewHolder {
         val view = PlayersCachetaLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CachetaViewHolder(view)
+        return CachetaViewHolder(view, listener)
     }
 
     override fun onBindViewHolder(holder: CachetaViewHolder, position: Int) {
-        holder.bind(startViewModel.playersCacheta.value!![position])
+        holder.bind(listPlayers[position])
     }
 
-    override fun getItemCount(): Int = startViewModel.playersCacheta.value!!.size
+    override fun getItemCount(): Int = listPlayers.size
 
-    inner class CachetaViewHolder(private val item: PlayersCachetaLayoutBinding) : RecyclerView.ViewHolder(item.root) {
+    fun updateList(players: List<PlayerCachetaModel>) {
+        this.listPlayers = players
+        notifyDataSetChanged()
+    }
+
+    fun attachListener(listener: CachetaListener) {
+        this.listener = listener
+    }
+
+    class CachetaViewHolder(private val item: PlayersCachetaLayoutBinding, val listener: CachetaListener) : RecyclerView.ViewHolder(item.root) {
         fun bind(player: PlayerCachetaModel) {
             if(player.points <= 0) {
                 item.viewCachetaPlayer.setBackgroundResource(R.color.md_theme_errorContainer)
                 item.checkboxPlay.isEnabled = false
                 item.buttonCalculate.isEnabled = false
+                item.textPoints.text = "perdeu"
+            }else{
+                item.textPoints.text = player.points.toString()
             }
             item.textPlayers.text = player.name
-            item.textPoints.text = if(player.points > 0) player.points.toString() else "perdeu"
             item.checkboxPlay.isChecked = player.played
             item.buttonCalculate.isEnabled = player.played
 
             item.checkboxPlay.setOnCheckedChangeListener { _, isChecked ->
                 item.buttonCalculate.isEnabled = isChecked
-            }
-
-            item.checkboxPlay.setOnClickListener {
-                startViewModel.updateCachetaPlayer(PlayerCachetaModel(player.name, item.checkboxPlay.isChecked, player.points))
+                listener.updateCachetaPlayer(PlayerCachetaModel(player.name, isChecked, player.points))
             }
 
             item.buttonCalculate.setOnClickListener {
-                startViewModel.calculateCachetaPoints(player)
-                notifyDataSetChanged()
+                listener.calculateCachetaPoints(player)
             }
         }
     }

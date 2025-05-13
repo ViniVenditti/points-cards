@@ -4,6 +4,7 @@
     <string name="title_score">Placar</string>
 
     <string-array name="list_games">
+        <item></item>
         <item>bisca</item>
         <item>cacheta</item>
         <item>tranca/buraco</item>

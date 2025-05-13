@@ -17,8 +17,8 @@ class ScoreViewModel: ViewModel() {
             val player = ScoreBiscaModel(
                 name = p.name,
                 listPoints = listOf(Points(
-                    doing = p.doing,
-                    done = p.done,
+                    doing = p.doing!!,
+                    done = p.done!!,
                     score = p.score
                 ))
             )
@@ -32,8 +32,8 @@ class ScoreViewModel: ViewModel() {
         var newList = currentList.map {
             if (it.name == player.name) {
                 it.listPoints.plus(Points(
-                    doing = player.doing,
-                    done = player.done,
+                    doing = player.doing!!,
+                    done = player.done!!,
                     score = player.score
                 ))
 
