@@ -21,10 +21,10 @@ class PlayerModel(
     val name: String,
 
     @ColumnInfo(name = "doing")
-    var doing: Int = 0,
+    var doing: Int?,
 
     @ColumnInfo(name = "done")
-    var done: Int = 0,
+    var done: Int?,
 
     @ColumnInfo(name = "score")
     var score: Int = 0

@@ -10,16 +10,16 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.ActivityCachetaBinding
-import com.vinivenditti.pointscards.ui.bisca.BiscaActivity
+import com.vinivenditti.pointscards.model.PlayerCachetaModel
 import com.vinivenditti.pointscards.ui.cacheta.adapter.CachetaAdapter
-import com.vinivenditti.pointscards.ui.start.StartViewModel
+import com.vinivenditti.pointscards.ui.cacheta.listener.CachetaListener
 import com.vinivenditti.pointscards.ui.start.StartViewModelSingleton
 
 class CachetaActivity : AppCompatActivity() {
 
     private val binding: ActivityCachetaBinding by lazy { ActivityCachetaBinding.inflate(layoutInflater) }
-    private lateinit var startViewModel: StartViewModel
-    private lateinit var adapter: CachetaAdapter
+    private val cachetaViewModel: CachetaViewModel by lazy { CachetaViewModel(StartViewModelSingleton.getInstance(this)) }
+    private val adapter: CachetaAdapter by lazy { CachetaAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +30,10 @@ class CachetaActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        startViewModel = StartViewModelSingleton.getInstance(this)
 
-        adapter = CachetaAdapter(startViewModel)
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewPlayers.adapter = adapter
+
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -50,6 +49,23 @@ class CachetaActivity : AppCompatActivity() {
             }
         })
 
+        val listener = object : CachetaListener {
+            override fun calculateCachetaPoints(player: PlayerCachetaModel) {
+                cachetaViewModel.calculateCachetaPoints(player)
+            }
+            override fun updateCachetaPlayer(player: PlayerCachetaModel) {
+                cachetaViewModel.updateCachetaPlayer(player)
+            }
+        }
+        adapter.attachListener(listener)
+        observer()
+    }
 
+    private fun observer() {
+        cachetaViewModel.players.observe(this) {
+            binding.recyclerViewPlayers.post {
+                adapter.updateList(it)
+            }
+        }
     }
 }
