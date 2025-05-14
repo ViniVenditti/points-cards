@@ -1,6 +1,7 @@
 package com.vinivenditti.pointscards.ui.tranca
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -30,6 +31,7 @@ class TrancaActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         binding.recyclerviewWe.layoutManager = LinearLayoutManager(this)
         binding.recyclerviewThem.layoutManager = LinearLayoutManager(this)

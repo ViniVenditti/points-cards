@@ -3,6 +3,7 @@ package com.vinivenditti.pointscards.ui.start
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -34,6 +35,7 @@ class StartActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         supportActionBar?.hide()
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         startViewModel = StartViewModelSingleton.getInstance(this)
 

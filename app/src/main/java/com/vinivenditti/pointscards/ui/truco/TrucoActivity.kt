@@ -1,6 +1,7 @@
 package com.vinivenditti.pointscards.ui.truco
 
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
@@ -29,6 +30,7 @@ class TrucoActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         binding.recyclerviewWe.layoutManager = LinearLayoutManager(this)
         binding.recyclerviewThem.layoutManager = LinearLayoutManager(this)
