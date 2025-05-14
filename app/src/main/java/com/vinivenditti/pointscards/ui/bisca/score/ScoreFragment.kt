@@ -5,27 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinivenditti.pointscards.databinding.FragmentScoreBinding
-import com.vinivenditti.pointscards.ui.bisca.adapter.ScoreAdapter
+import com.vinivenditti.pointscards.ui.bisca.BiscaViewModel
+import com.vinivenditti.pointscards.ui.bisca.BiscaViewModelFactory
+import com.vinivenditti.pointscards.ui.bisca.score.ScoreAdapter
 import com.vinivenditti.pointscards.ui.start.StartViewModelSingleton
+import kotlin.getValue
 
 class ScoreFragment : Fragment() {
 
     private var _binding: FragmentScoreBinding? = null
-    private lateinit var adapter: ScoreAdapter
-    private val scoreViewModel: ScoreViewModel by viewModels()
+    private val adapter: ScoreAdapter by lazy { ScoreAdapter() }
+    //private val scoreViewModel: ScoreViewModel by lazy { ScoreViewModel(BiscaViewModel(StartViewModelSingleton.getInstance(requireActivity()))) }
+    private val biscaViewModel: BiscaViewModel by lazy {
+        val biscaViewModelFactory = BiscaViewModelFactory(StartViewModelSingleton.getInstance(requireActivity()))
+        ViewModelProvider(requireActivity(), biscaViewModelFactory)[BiscaViewModel::class.java]
+    }
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentScoreBinding.inflate(inflater, container, false)
-
-        val startViewModel = StartViewModelSingleton.getInstance(requireActivity())
-        scoreViewModel.addPlayer(startViewModel.players.value!!)
-        adapter = ScoreAdapter(scoreViewModel.players.value!!)
 
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewPlayers.adapter = adapter
@@ -35,8 +40,8 @@ class ScoreFragment : Fragment() {
     }
 
     private fun observe() {
-        scoreViewModel.players.observe(viewLifecycleOwner) {
-            adapter.notifyDataSetChanged()
+        biscaViewModel.listPoints.observe(viewLifecycleOwner) {
+            adapter.updateList(it)
         }
     }
 

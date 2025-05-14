@@ -41,7 +41,7 @@ class CachetaActivity : AppCompatActivity() {
                     .setTitle("Sair do jogo")
                     .setMessage("Deseja sair do jogo?")
                     .setPositiveButton("Sim") { _, _ ->
-                        StartViewModelSingleton.getInstance(this@CachetaActivity).resetPlayers()
+                        StartViewModelSingleton.getInstance(this@CachetaActivity)
                         finish()
                     }
                     .setNegativeButton("Não", null)

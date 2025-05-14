@@ -5,6 +5,8 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.vinivenditti.pointscards.model.PlayerModel
+import com.vinivenditti.pointscards.model.Points
+import com.vinivenditti.pointscards.model.ScoreBiscaModel
 import com.vinivenditti.pointscards.ui.start.StartViewModel
 
 class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
@@ -13,6 +15,8 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
     val players: LiveData<List<PlayerModel>> = _players
     private val _score = MutableLiveData<List<PlayerModel>>()
     val score: LiveData<List<PlayerModel>> = _score
+    private val _listPoints = MutableLiveData<List<ScoreBiscaModel>>()
+    val listPoints: LiveData<List<ScoreBiscaModel>> = _listPoints
 
     val listPlayers = MediatorLiveData<String>().apply {
         addPlayer(startViewModel.listPlayers)
@@ -20,15 +24,19 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
 
     fun addPlayer(data: LiveData<List<String>>) {
         data.observeForever { it ->
-            val newList = it.map { name ->
+            val listPlayers = it.map { name ->
                 PlayerModel(name = name, score = 0, doing = null, done = null, match = 0)
             }
-            _players.value = newList
-            _score.value = newList
+            val listPoints = it.map { name ->
+                ScoreBiscaModel(name = name, listPoints = listOf(Points(0, 0, 0)))
+            }
+            _players.value = listPlayers
+            _score.value = listPlayers
+            _listPoints.value = listPoints
         }
     }
 
-    fun updatePlayer(player: PlayerModel, updateScore: Boolean = false) {
+    fun updatePlayer(player: PlayerModel) {
         val currentList = _score.value ?: mutableListOf()
         val newList = currentList.map {
             if (it.name == player.name)
@@ -52,7 +60,24 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
             } else {
                 player.score += player.done!!
             }
+            addPoints(player)
         }
         _players.value = _score.value
     }
+
+    private fun addPoints(player: PlayerModel) {
+        val currentList = _listPoints.value ?: mutableListOf()
+        val newList = currentList.map {
+            if (it.name == player.name) {
+                val updatedPointsList = it.listPoints.toMutableList().apply {
+                    add(Points(player.doing ?: 0, player.done ?: 0, player.score))
+                }.toList()
+                it.copy(listPoints = updatedPointsList)
+            } else {
+                it
+            }
+        }
+        _listPoints.value = newList
+    }
+
 }

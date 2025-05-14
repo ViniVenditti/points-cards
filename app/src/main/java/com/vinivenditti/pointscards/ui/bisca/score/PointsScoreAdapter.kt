@@ -1,4 +1,4 @@
-package com.vinivenditti.pointscards.ui.bisca.adapter
+package com.vinivenditti.pointscards.ui.bisca.score
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -20,8 +20,8 @@ class PointsScoreAdapter(private val listPoints: List<Points>) : RecyclerView.Ad
 
     class PointsScoreViewHolder(private val item: PointsPlayersBinding) : RecyclerView.ViewHolder(item.root) {
         fun bind(points: Points) {
-            item.textDone.text = points.done.toString()
             item.textDoing.text = points.doing.toString()
+            item.textDone.text = points.done.toString()
             item.textScore.text = points.score.toString()
         }
     }

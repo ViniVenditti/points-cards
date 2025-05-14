@@ -8,10 +8,13 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinivenditti.pointscards.databinding.FragmentPointsBinding
 import com.vinivenditti.pointscards.model.PlayerModel
 import com.vinivenditti.pointscards.ui.bisca.BiscaViewModel
+import com.vinivenditti.pointscards.ui.bisca.BiscaViewModelFactory
 import com.vinivenditti.pointscards.ui.bisca.adapter.PlayerGameAdapter
 import com.vinivenditti.pointscards.ui.bisca.listener.BiscaListener
 import com.vinivenditti.pointscards.ui.start.StartViewModel
@@ -23,11 +26,8 @@ class PointsFragment : Fragment() {
     private var _binding: FragmentPointsBinding? = null
     private val adapter: PlayerGameAdapter = PlayerGameAdapter()
     private val biscaViewModel: BiscaViewModel by lazy {
-        BiscaViewModel(
-            StartViewModelSingleton.getInstance(
-                requireActivity()
-            )
-        )
+        val biscaViewModelFactory = BiscaViewModelFactory(StartViewModelSingleton.getInstance(requireActivity()))
+        ViewModelProvider(requireActivity(), biscaViewModelFactory)[BiscaViewModel::class.java]
     }
     private val pointsViewModel: PointsViewModel = PointsViewModel()
 
@@ -35,11 +35,7 @@ class PointsFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPointsBinding.inflate(inflater, container, false)
 
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(context)
