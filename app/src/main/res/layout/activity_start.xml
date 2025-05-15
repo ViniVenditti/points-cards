@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:theme="@style/AppTheme"
     tools:context=".ui.start.StartActivity">
 
@@ -13,8 +12,9 @@
         android:id="@+id/text_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bom jogo!!"
+        android:text="@string/good_game"
         android:textSize="36sp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Escolha o jogo: "
+        android:text="@string/text_choice_game"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/spinner_game"
         app:layout_constraintHorizontal_chainStyle="spread"
@@ -41,12 +41,12 @@
         app:layout_constraintStart_toEndOf="@+id/text_game"
         app:layout_constraintTop_toBottomOf="@+id/text_welcome" />
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edit_input_player"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
         app:layout_constraintEnd_toStartOf="@+id/button_add"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,15 +56,17 @@
             android:id="@+id/edit_text_player"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Jogador"
+            android:hint="@string/hint_player"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_add"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="0dp"
         android:background="@drawable/ic_add_player"
+        android:layout_marginEnd="32dp"
+        android:contentDescription="@string/description_button_add"
         app:layout_constraintBottom_toBottomOf="@+id/edit_input_player"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/edit_input_player"
@@ -75,6 +77,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:contentDescription="@string/description_list_players"
         app:layout_constraintBottom_toTopOf="@+id/button_play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,9 +89,12 @@
         android:id="@+id/button_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="Começar!"
+        android:layout_marginBottom="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/start_game"
         android:textSize="22sp"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_view_players"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

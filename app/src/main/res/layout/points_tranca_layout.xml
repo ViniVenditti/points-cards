@@ -5,9 +5,9 @@
 
     <TextView
         android:id="@+id/text_points"
-        android:text="partida 1: 1000"
+        android:text="@string/text_round"
         android:gravity="center"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

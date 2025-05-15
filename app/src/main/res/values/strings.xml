@@ -1,23 +1,36 @@
 <resources>
-    <string name="app_name">PointsCards</string>
+    <string name="app_name">Marcador de Jogos</string>
     <string name="title_points">Pontos</string>
     <string name="title_score">Placar</string>
+    <string name="good_game">Bom jogo!!</string>
+    <string name="text_choice_game">"Escolha o jogo: "</string>
+    <string name="hint_player">Jogador</string>
+    <string name="description_button_add">Adicionar jogador</string>
+    <string name="description_list_players">Lista de jogadores</string>
+    <string name="start_game">Começar!</string>
+    <string name="bisca">Bisca</string>
+    <string name="text_round">Rodada 1</string>
+    <string name="text_status_game">subindo</string>
+    <string name="calculate">Calcular</string>
+    <string name="overall_score">Placar Geral</string>
+    <string name="truco">Truco</string>
+    <string name="text_we">NOIS</string>
+    <string name="text_them">ELES</string>
+    <string name="tranca_buraco">Tranca/Buraco</string>
+    <string name="hint_points">Pontos</string>
+    <string name="total">total</string>
+    <string name="cacheta">Cacheta</string>
+    <string name="played">jogou?</string>
+    <string name="winner">Ganhou!</string>
+    <string name="points">10</string>
+    <string name="hint_doing">Faz</string>
+    <string name="hint_done">Fez</string>
 
     <string-array name="list_games">
         <item></item>
-        <item>bisca</item>
-        <item>cacheta</item>
-        <item>tranca/buraco</item>
-        <item>truco</item>
-    </string-array>
-
-    <string-array name="number_players">
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
+        <item>Bisca</item>
+        <item>Cacheta</item>
+        <item>Tranca/Buraco</item>
+        <item>Truco</item>
     </string-array>
 </resources>
