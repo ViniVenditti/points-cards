@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.PlayersCachetaLayoutBinding
 import com.vinivenditti.pointscards.games.cacheta.listener.CachetaListener
-import com.vinivenditti.pointscards.model.PlayerCachetaModel
+import com.vinivenditti.pointscards.games.cacheta.model.PlayerCachetaModel
 
 class CachetaAdapter: RecyclerView.Adapter<CachetaAdapter.CachetaViewHolder>() {
     private var listPlayers = listOf<PlayerCachetaModel>()

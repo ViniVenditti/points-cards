@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.vinivenditti.pointscards.repository.PlayerRepository
+import com.vinivenditti.pointscards.games.bisca.repository.PlayerRepository
 
 
 class StartViewModel(application: Application) : AndroidViewModel(application) {

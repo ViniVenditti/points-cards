@@ -1,4 +1,4 @@
-package com.vinivenditti.pointscards.model
+package com.vinivenditti.pointscards.games.cacheta.model
 
 class PlayerCachetaModel(
     val name: String,

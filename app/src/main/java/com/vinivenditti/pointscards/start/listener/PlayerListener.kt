@@ -1,4 +1,4 @@
-package com.vinivenditti.pointscards.listener
+package com.vinivenditti.pointscards.start.listener
 
 interface PlayerListener {
 

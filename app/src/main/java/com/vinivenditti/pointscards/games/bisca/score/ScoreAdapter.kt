@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.databinding.TableScoreBinding
-import com.vinivenditti.pointscards.model.ScoreBiscaModel
+import com.vinivenditti.pointscards.games.bisca.model.ScoreBiscaModel
 
 class ScoreAdapter: RecyclerView.Adapter<ScoreAdapter.ViewHolder>() {
     private var listPlayers = listOf<ScoreBiscaModel>()

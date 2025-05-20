@@ -1,9 +1,9 @@
-package com.vinivenditti.pointscards.repository
+package com.vinivenditti.pointscards.games.bisca.repository
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.vinivenditti.pointscards.model.PlayerModel
+import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

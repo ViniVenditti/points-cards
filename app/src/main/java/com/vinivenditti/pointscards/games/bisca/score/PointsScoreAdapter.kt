@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.databinding.PointsPlayersBinding
-import com.vinivenditti.pointscards.model.Points
+import com.vinivenditti.pointscards.games.bisca.model.Points
 
 class PointsScoreAdapter(private val listPoints: List<Points>) : RecyclerView.Adapter<PointsScoreAdapter.PointsScoreViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PointsScoreViewHolder {

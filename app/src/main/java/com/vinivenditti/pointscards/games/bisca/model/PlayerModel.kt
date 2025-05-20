@@ -1,4 +1,4 @@
-package com.vinivenditti.pointscards.model
+package com.vinivenditti.pointscards.games.bisca.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

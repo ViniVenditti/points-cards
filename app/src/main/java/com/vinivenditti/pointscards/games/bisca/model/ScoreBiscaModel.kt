@@ -1,4 +1,4 @@
-package com.vinivenditti.pointscards.model
+package com.vinivenditti.pointscards.games.bisca.model
 
 data class ScoreBiscaModel(
     val name: String,

@@ -1,4 +1,4 @@
-package com.vinivenditti.pointscards.repository
+package com.vinivenditti.pointscards.games.bisca.repository
 
 import android.content.Context
 import androidx.room.Database
@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.vinivenditti.pointscards.model.PlayerModel
+import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

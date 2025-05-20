@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.databinding.PlayerLayoutBinding
-import com.vinivenditti.pointscards.listener.PlayerListener
+import com.vinivenditti.pointscards.start.listener.PlayerListener
 
 class PlayerAdapter: RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
     internal var list = listOf<String>()

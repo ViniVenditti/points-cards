@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.databinding.PointsLayoutBinding
-import com.vinivenditti.pointscards.model.PlayerModel
+import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import com.vinivenditti.pointscards.games.bisca.listener.BiscaListener
 
 class PlayerGameAdapter: RecyclerView.Adapter<PlayerGameAdapter.PlayerGameViewHolder>() {

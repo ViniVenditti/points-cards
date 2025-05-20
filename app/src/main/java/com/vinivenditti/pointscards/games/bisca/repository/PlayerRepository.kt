@@ -1,7 +1,7 @@
-package com.vinivenditti.pointscards.repository
+package com.vinivenditti.pointscards.games.bisca.repository
 
 import android.content.Context
-import com.vinivenditti.pointscards.model.PlayerModel
+import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 
 class PlayerRepository private constructor(context: Context) {
 

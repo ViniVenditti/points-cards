@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vinivenditti.pointscards.model.PlayerCachetaModel
+import com.vinivenditti.pointscards.games.cacheta.model.PlayerCachetaModel
 import com.vinivenditti.pointscards.start.StartViewModel
 
 class CachetaViewModel(startViewModel: StartViewModel) : ViewModel() {

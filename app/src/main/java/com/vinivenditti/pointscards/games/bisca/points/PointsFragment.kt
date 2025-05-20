@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinivenditti.pointscards.databinding.FragmentPointsBinding
-import com.vinivenditti.pointscards.model.PlayerModel
+import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import com.vinivenditti.pointscards.games.bisca.BiscaViewModel
 import com.vinivenditti.pointscards.games.bisca.BiscaViewModelFactory
 import com.vinivenditti.pointscards.games.bisca.adapter.PlayerGameAdapter

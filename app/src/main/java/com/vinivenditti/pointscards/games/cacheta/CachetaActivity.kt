@@ -11,7 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.ActivityCachetaBinding
-import com.vinivenditti.pointscards.model.PlayerCachetaModel
+import com.vinivenditti.pointscards.games.cacheta.model.PlayerCachetaModel
 import com.vinivenditti.pointscards.games.cacheta.adapter.CachetaAdapter
 import com.vinivenditti.pointscards.games.cacheta.listener.CachetaListener
 import com.vinivenditti.pointscards.start.StartViewModelSingleton

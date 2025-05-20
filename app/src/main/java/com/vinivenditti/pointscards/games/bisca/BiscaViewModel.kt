@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vinivenditti.pointscards.model.PlayerModel
-import com.vinivenditti.pointscards.model.Points
-import com.vinivenditti.pointscards.model.ScoreBiscaModel
+import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
+import com.vinivenditti.pointscards.games.bisca.model.Points
+import com.vinivenditti.pointscards.games.bisca.model.ScoreBiscaModel
 import com.vinivenditti.pointscards.start.StartViewModel
 
 class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {

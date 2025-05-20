@@ -3,7 +3,7 @@ package com.vinivenditti.pointscards.games.bisca.points
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.vinivenditti.pointscards.model.PlayerModel
+import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 
 class PointsViewModel : ViewModel() {
     private val _round = MutableLiveData<Int>(1)

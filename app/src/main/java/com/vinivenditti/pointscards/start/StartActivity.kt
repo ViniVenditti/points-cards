@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.ActivityStartBinding
-import com.vinivenditti.pointscards.listener.PlayerListener
+import com.vinivenditti.pointscards.start.listener.PlayerListener
 import com.vinivenditti.pointscards.games.bisca.BiscaActivity
 import com.vinivenditti.pointscards.games.cacheta.CachetaActivity
 import com.vinivenditti.pointscards.start.adapter.PlayerAdapter

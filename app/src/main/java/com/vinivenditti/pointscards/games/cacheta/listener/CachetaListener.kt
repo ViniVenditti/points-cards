@@ -1,6 +1,6 @@
 package com.vinivenditti.pointscards.games.cacheta.listener
 
-import com.vinivenditti.pointscards.model.PlayerCachetaModel
+import com.vinivenditti.pointscards.games.cacheta.model.PlayerCachetaModel
 
 interface CachetaListener {
     fun calculateCachetaPoints(player: PlayerCachetaModel)
