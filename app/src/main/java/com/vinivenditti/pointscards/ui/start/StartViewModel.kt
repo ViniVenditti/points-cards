@@ -15,7 +15,7 @@ class StartViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addPlayer(player: String){
         val currentList = _listPlayers.value ?: mutableListOf()
-        val newList = currentList.plus(player)
+        val newList = (currentList + player).toSet().toList()
         _listPlayers.value = newList
     }
 
