@@ -1,6 +1,7 @@
 package com.vinivenditti.pointscards.ui.start
 
 import android.content.Intent
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -9,20 +10,22 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.vinivenditti.pointscards.ui.bisca.BiscaActivity
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.ActivityStartBinding
 import com.vinivenditti.pointscards.listener.PlayerListener
-import com.vinivenditti.pointscards.model.PlayerCachetaModel
-import com.vinivenditti.pointscards.model.PlayerModel
-import com.vinivenditti.pointscards.ui.start.adapter.PlayerAdapter
+import com.vinivenditti.pointscards.ui.bisca.BiscaActivity
 import com.vinivenditti.pointscards.ui.cacheta.CachetaActivity
+import com.vinivenditti.pointscards.ui.start.adapter.PlayerAdapter
 import com.vinivenditti.pointscards.ui.tranca.TrancaActivity
 import com.vinivenditti.pointscards.ui.truco.TrucoActivity
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
+
 
 class StartActivity : AppCompatActivity() {
     private val binding: ActivityStartBinding by lazy { ActivityStartBinding.inflate(layoutInflater) }
@@ -53,6 +56,32 @@ class StartActivity : AppCompatActivity() {
             }
         }
 
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                listener.deletePlayer(adapter.list[viewHolder.adapterPosition])
+            }
+
+            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    .addBackgroundColor(
+                        ContextCompat.getColor(
+                            this@StartActivity,
+                            R.color.md_theme_error
+                        )
+                    )
+                    .addCornerRadius(1, 15)
+                    .addActionIcon(R.drawable.ic_delete)
+                    .create()
+                    .decorate()
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerViewPlayers)
         adapter.attachListener(listener)
         setListeners()
         observe()
@@ -114,4 +143,5 @@ class StartActivity : AppCompatActivity() {
             }
         }
     }
+
 }

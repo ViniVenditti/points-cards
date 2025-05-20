@@ -3,12 +3,13 @@ package com.vinivenditti.pointscards.ui.start.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.vinivenditti.pointscards.databinding.PlayerLayoutBinding
 import com.vinivenditti.pointscards.listener.PlayerListener
 
 class PlayerAdapter: RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
-    private var list = listOf<String>()
+    internal var list = listOf<String>()
     private lateinit var listener: PlayerListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,17 +36,8 @@ class PlayerAdapter: RecyclerView.Adapter<PlayerAdapter.ViewHolder>() {
         fun bind(name: String, pos: Int) {
             item.textPlayer.text = "Jogador ${pos+1}: "
             item.textPlayerName.text = name
-            item.textPlayerName.setOnLongClickListener {
-                AlertDialog.Builder(itemView.context)
-                    .setTitle("Excluir jogador")
-                    .setMessage("Deseja excluir o jogador ${name}?")
-                    .setPositiveButton("Sim") { _, _ ->
-                        listener.deletePlayer(name)
-                    }
-                    .setNegativeButton("Não", null)
-                    .show()
-                true
-            }
         }
+
     }
+
 }
