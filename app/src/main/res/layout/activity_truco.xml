@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.truco.TrucoActivity">
+    tools:context=".games.truco.TrucoActivity">
 
     <TextView
         android:id="@+id/text_game"

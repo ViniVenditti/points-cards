@@ -13,16 +13,16 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".ui.tranca.TrancaActivity"
+            android:name=".games.tranca.TrancaActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.cacheta.CachetaActivity"
+            android:name=".games.cacheta.CachetaActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.truco.TrucoActivity"
+            android:name=".games.truco.TrucoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.start.StartActivity"
+            android:name=".start.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.bisca.BiscaActivity"
+            android:name=".games.bisca.BiscaActivity"
             android:exported="true"
             />
     </application>
