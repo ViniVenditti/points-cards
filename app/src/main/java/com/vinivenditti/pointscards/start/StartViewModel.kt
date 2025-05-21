@@ -4,12 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.vinivenditti.pointscards.games.bisca.repository.PlayerRepository
 
 
 class StartViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = PlayerRepository.getInstance(application)
-
     private val _listPlayers = MutableLiveData<List<String>>()
     val listPlayers: LiveData<List<String>> = _listPlayers
 

@@ -4,12 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import com.vinivenditti.pointscards.games.bisca.model.Points
 import com.vinivenditti.pointscards.games.bisca.model.ScoreBiscaModel
 import com.vinivenditti.pointscards.start.StartViewModel
 
 class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
+
+    private val database = FirebaseDatabase.getInstance().getReference("bisca")
 
     private val _players = MutableLiveData<List<PlayerModel>>()
     val players: LiveData<List<PlayerModel>> = _players
@@ -33,7 +37,12 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
             _players.value = listPlayers
             _score.value = listPlayers
             _listPoints.value = listPoints
+            savePlayers()
         }
+    }
+
+    private fun savePlayers() {
+        database.child("players").setValue(_players.value)
     }
 
     fun updatePlayer(player: PlayerModel) {

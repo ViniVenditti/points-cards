@@ -3,6 +3,7 @@ package com.vinivenditti.pointscards.start
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
@@ -16,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.FirebaseDatabase
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.ActivityStartBinding
 import com.vinivenditti.pointscards.start.listener.PlayerListener
@@ -32,6 +34,7 @@ class StartActivity : AppCompatActivity() {
     private val adapter: PlayerAdapter by lazy { PlayerAdapter() }
     private lateinit var startViewModel: StartViewModel
     private var match = 0
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
