@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 
 
 class StartViewModel(application: Application) : AndroidViewModel(application) {
+
     private val _listPlayers = MutableLiveData<List<String>>()
     val listPlayers: LiveData<List<String>> = _listPlayers
 

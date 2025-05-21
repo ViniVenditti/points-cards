@@ -4,16 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
 import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import com.vinivenditti.pointscards.games.bisca.model.Points
 import com.vinivenditti.pointscards.games.bisca.model.ScoreBiscaModel
 import com.vinivenditti.pointscards.start.StartViewModel
+import java.time.LocalDate
 
 class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
 
-    private val database = FirebaseDatabase.getInstance().getReference("bisca")
+    private val database = Firebase.database.reference
 
     private val _players = MutableLiveData<List<PlayerModel>>()
     val players: LiveData<List<PlayerModel>> = _players
@@ -21,6 +25,7 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
     val score: LiveData<List<PlayerModel>> = _score
     private val _listPoints = MutableLiveData<List<ScoreBiscaModel>>()
     val listPoints: LiveData<List<ScoreBiscaModel>> = _listPoints
+    private var match = 0
 
     val listPlayers = MediatorLiveData<String>().apply {
         addPlayer(startViewModel.listPlayers)
@@ -29,7 +34,7 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
     fun addPlayer(data: LiveData<List<String>>) {
         data.observeForever { it ->
             val listPlayers = it.map { name ->
-                PlayerModel(name = name, score = 0, doing = null, done = null, match = 0)
+                PlayerModel(name = name, score = 0, doing = null, done = null)
             }
             val listPoints = it.map { name ->
                 ScoreBiscaModel(name = name, listPoints = listOf(Points(0, 0, 0)))
@@ -37,12 +42,23 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
             _players.value = listPlayers
             _score.value = listPlayers
             _listPoints.value = listPoints
-            savePlayers()
         }
     }
+    fun setMatch(){
+        database.orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val lastMatch = snapshot.child(LocalDate.now().toString()).children.lastOrNull()?.key?.toIntOrNull()
+                if (lastMatch != null) {
+                    match = lastMatch+1
+                    savePlayers()
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
 
-    private fun savePlayers() {
-        database.child("players").setValue(_players.value)
+    fun savePlayers(){
+        database.child(LocalDate.now().toString()).child(match.toString()).setValue(_listPoints.value)
     }
 
     fun updatePlayer(player: PlayerModel) {
@@ -53,8 +69,7 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
                     name = it.name,
                     score = player.score,
                     doing = player.doing,
-                    done = player.done,
-                    match = it.match
+                    done = player.done
                 )
             else
                 it
@@ -87,6 +102,7 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
             }
         }
         _listPoints.value = newList
+        savePlayers()
     }
 
 }

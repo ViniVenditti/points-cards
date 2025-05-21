@@ -20,7 +20,7 @@ class PointsViewModel : ViewModel() {
     }
 
     fun calculateRound() {
-        when (_statusGame.value){
+        when (_statusGame.value) {
             "subindo" -> {
                 _round.value = _round.value?.inc()
                 if (_round.value == limitRound) {
@@ -34,7 +34,5 @@ class PointsViewModel : ViewModel() {
                 _round.value = _round.value?.dec()
             }
         }
-
     }
-
 }

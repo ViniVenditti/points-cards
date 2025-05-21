@@ -3,7 +3,6 @@ package com.vinivenditti.pointscards.start
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
@@ -17,15 +16,14 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.FirebaseDatabase
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.ActivityStartBinding
-import com.vinivenditti.pointscards.start.listener.PlayerListener
 import com.vinivenditti.pointscards.games.bisca.BiscaActivity
 import com.vinivenditti.pointscards.games.cacheta.CachetaActivity
-import com.vinivenditti.pointscards.start.adapter.PlayerAdapter
 import com.vinivenditti.pointscards.games.tranca.TrancaActivity
 import com.vinivenditti.pointscards.games.truco.TrucoActivity
+import com.vinivenditti.pointscards.start.adapter.PlayerAdapter
+import com.vinivenditti.pointscards.start.listener.PlayerListener
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 
@@ -33,8 +31,6 @@ class StartActivity : AppCompatActivity() {
     private val binding: ActivityStartBinding by lazy { ActivityStartBinding.inflate(layoutInflater) }
     private val adapter: PlayerAdapter by lazy { PlayerAdapter() }
     private lateinit var startViewModel: StartViewModel
-    private var match = 0
-    private val firebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,8 +127,6 @@ class StartActivity : AppCompatActivity() {
         }
 
         binding.buttonPlay.setOnClickListener {
-            match++
-            //startViewModel.savePlayers()
             when(binding.spinnerGame.selectedItemPosition){
                 0 -> {
                     Toast.makeText(this, "Selecione um jogo", Toast.LENGTH_LONG).show()

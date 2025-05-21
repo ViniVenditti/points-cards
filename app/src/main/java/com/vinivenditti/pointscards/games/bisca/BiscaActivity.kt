@@ -35,8 +35,7 @@ class BiscaActivity : AppCompatActivity() {
             insets
         }
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-
-
+        viewModel.setMatch()
         setSupportActionBar(binding.toolbar)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
