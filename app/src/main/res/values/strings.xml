@@ -25,6 +25,7 @@
     <string name="points">10</string>
     <string name="hint_doing">Faz</string>
     <string name="hint_done">Fez</string>
+    <string name="title_historical">Historico</string>
 
     <string-array name="list_games">
         <item></item>

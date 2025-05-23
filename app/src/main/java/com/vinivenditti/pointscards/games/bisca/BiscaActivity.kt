@@ -61,7 +61,7 @@ class BiscaActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration =
-            AppBarConfiguration(setOf(R.id.navigation_points, R.id.navigation_score))
+            AppBarConfiguration(setOf(R.id.navigation_points, R.id.navigation_score, R.id.navigation_historical))
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)

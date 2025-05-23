@@ -55,6 +55,8 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.recyclerview.swipedecorator)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.fragment.ktx)
     ksp(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

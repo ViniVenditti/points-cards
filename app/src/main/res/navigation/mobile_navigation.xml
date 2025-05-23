@@ -16,4 +16,10 @@
         android:name="com.vinivenditti.pointscards.games.bisca.score.ScoreFragment"
         android:label="@string/title_score"
         tools:layout="@layout/fragment_score" />
+
+    <fragment
+        android:id="@+id/navigation_historical"
+        android:name="com.vinivenditti.pointscards.games.bisca.historical.HistoricalFragment"
+        android:label="@string/title_historical"
+        tools:layout="@layout/fragment_historical" />
 </navigation>
