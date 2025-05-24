@@ -3,9 +3,11 @@ package com.vinivenditti.pointscards.games.cacheta
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,18 +26,22 @@ class CachetaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        val colorId = ContextCompat.getColor(this, R.color.md_theme_primary)
+        enableEdgeToEdge(statusBarStyle = SystemBarStyle.light(colorId, colorId),
+            navigationBarStyle = SystemBarStyle.light(colorId,colorId))
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        supportActionBar?.hide()
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewPlayers.adapter = adapter
-
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

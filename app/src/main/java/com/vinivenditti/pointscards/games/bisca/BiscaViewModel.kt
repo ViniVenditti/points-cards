@@ -1,5 +1,6 @@
 package com.vinivenditti.pointscards.games.bisca
 
+import android.provider.Settings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,10 +26,15 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
     val score: LiveData<List<PlayerModel>> = _score
     private val _listPoints = MutableLiveData<List<ScoreBiscaModel>>()
     val listPoints: LiveData<List<ScoreBiscaModel>> = _listPoints
+    private var phoneId = ""
     private var match = 0
 
     val listPlayers = MediatorLiveData<String>().apply {
         addPlayer(startViewModel.listPlayers)
+    }
+
+    fun setPhoneId(phoneId: String) {
+        this.phoneId = phoneId
     }
 
     fun addPlayer(data: LiveData<List<String>>) {
@@ -45,9 +51,9 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
         }
     }
     fun setMatch(){
-        database.orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
+        database.child(phoneId).child(LocalDate.now().toString()).orderByKey().limitToLast(1).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val lastMatch = snapshot.child(LocalDate.now().toString()).children.lastOrNull()?.key?.toIntOrNull()
+                val lastMatch = snapshot.children.lastOrNull()?.key?.toIntOrNull()
                 if (lastMatch != null) {
                     match = lastMatch+1
                     savePlayers()
@@ -58,7 +64,7 @@ class BiscaViewModel(startViewModel: StartViewModel): ViewModel() {
     }
 
     fun savePlayers(){
-        database.child(LocalDate.now().toString()).child(match.toString()).setValue(_listPoints.value)
+        database.child(phoneId).child(LocalDate.now().toString()).child(match.toString()).setValue(_listPoints.value)
     }
 
     fun updatePlayer(player: PlayerModel) {

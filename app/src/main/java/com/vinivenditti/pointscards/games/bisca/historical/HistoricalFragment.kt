@@ -1,28 +1,22 @@
 package com.vinivenditti.pointscards.games.bisca.historical
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.view.get
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
-import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.FragmentHistoricalBinding
-import com.vinivenditti.pointscards.games.bisca.BiscaViewModel
-import com.vinivenditti.pointscards.games.bisca.BiscaViewModelFactory
 import com.vinivenditti.pointscards.games.bisca.score.ScoreAdapter
-import com.vinivenditti.pointscards.start.StartViewModelSingleton
-import kotlin.jvm.java
 
 class HistoricalFragment : Fragment() {
 
@@ -30,11 +24,11 @@ class HistoricalFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: HistoricalViewModel by viewModels()
     private val database = Firebase.database.reference
+    private val phoneId: String by lazy { Settings.Secure.getString(requireActivity().contentResolver, Settings.Secure.ANDROID_ID) }
     private val adapter: ScoreAdapter by lazy { ScoreAdapter() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHistoricalBinding.inflate(inflater, container, false)
-
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewPlayers.adapter = adapter
 
@@ -60,7 +54,7 @@ class HistoricalFragment : Fragment() {
         }
         binding.spinnerMatch.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                viewModel.getListPoints(parent?.getItemAtPosition(position).toString())
+                viewModel.getListPoints(parent?.getItemAtPosition(position).toString(), phoneId)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -69,12 +63,18 @@ class HistoricalFragment : Fragment() {
     private fun uploadDays() {
         val days = mutableListOf<String>()
 
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
+        database.child(phoneId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 days.clear()
                 for (dado in snapshot.children) {
                     val day = dado.key
                     day?.let { days.add(it) }
+                }
+                days.ifEmpty {
+                    binding.textNullMatches.visibility = View.VISIBLE
+                    binding.recyclerViewPlayers.visibility = View.GONE
+                    binding.spinnerDay.visibility = View.GONE
+                    binding.spinnerMatch.visibility = View.GONE
                 }
                 val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, days)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -85,7 +85,7 @@ class HistoricalFragment : Fragment() {
     }
 
     private fun uploadMatchs(day: String) {
-        database.child(day).addListenerForSingleValueEvent(object : ValueEventListener {
+        database.child(phoneId).child(day).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val games = mutableListOf<String>()
                 for (dado in snapshot.children) {

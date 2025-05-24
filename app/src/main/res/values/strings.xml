@@ -26,6 +26,7 @@
     <string name="hint_doing">Faz</string>
     <string name="hint_done">Fez</string>
     <string name="title_historical">Historico</string>
+    <string name="text_null_matches">Você ainda não jogou uma partida!!</string>
 
     <string-array name="list_games">
         <item></item>

@@ -1,10 +1,14 @@
 package com.vinivenditti.pointscards.games.bisca
 
 import android.os.Bundle
+import android.provider.Settings
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -19,7 +23,7 @@ import com.vinivenditti.pointscards.start.StartViewModelSingleton
 
 class BiscaActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityBiscaBinding
+    private val binding: ActivityBiscaBinding by lazy { ActivityBiscaBinding.inflate(layoutInflater) }
     private val viewModel: BiscaViewModel by lazy {
         val biscaViewModelFactory = BiscaViewModelFactory(StartViewModelSingleton.getInstance(this))
         ViewModelProvider(this, biscaViewModelFactory)[BiscaViewModel::class.java]
@@ -27,16 +31,18 @@ class BiscaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityBiscaBinding.inflate(layoutInflater)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        val colorId = ContextCompat.getColor(this, R.color.md_theme_primary)
+        enableEdgeToEdge(statusBarStyle = SystemBarStyle.light(colorId, colorId),
+            navigationBarStyle = SystemBarStyle.light(colorId,colorId))
+
+        viewModel.setPhoneId(Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID))
         viewModel.setMatch()
-        setSupportActionBar(binding.toolbar)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -51,7 +57,7 @@ class BiscaActivity : AppCompatActivity() {
                     .show()
             }
         })
-
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         supportActionBar?.hide()
         setContentView(binding.root)
         setUpNavigation()

@@ -24,8 +24,8 @@ class HistoricalViewModel : ViewModel() {
         this._day.value = day
     }
 
-    fun getListPoints(match: String) {
-        database.child(day.value!!).child(match).addListenerForSingleValueEvent(object : ValueEventListener {
+    fun getListPoints(match: String, phoneId: String) {
+        database.child(phoneId).child(day.value!!).child(match).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list = mutableListOf<ScoreBiscaModel>()
                 for (dado in snapshot.children) {

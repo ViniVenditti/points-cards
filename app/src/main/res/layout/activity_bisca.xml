@@ -4,24 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme"
-    android:paddingTop="?attr/actionBarSize">
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" /> <!-- Consider using a theme overlay -->
-
-    </com.google.android.material.appbar.AppBarLayout>
+    android:theme="@style/AppTheme">
 
     <fragment
         android:id="@+id/nav_host_fragment_activity_main"

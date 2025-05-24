@@ -25,9 +25,6 @@ class PointsFragment : Fragment() {
         ViewModelProvider(requireActivity(), biscaViewModelFactory)[BiscaViewModel::class.java]
     }
     private val pointsViewModel: PointsViewModel = PointsViewModel()
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
