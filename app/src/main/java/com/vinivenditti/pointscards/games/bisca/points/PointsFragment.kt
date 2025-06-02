@@ -1,5 +1,7 @@
 package com.vinivenditti.pointscards.games.bisca.points
 
+import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +10,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.FragmentPointsBinding
 import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import com.vinivenditti.pointscards.games.bisca.BiscaViewModel
 import com.vinivenditti.pointscards.games.bisca.BiscaViewModelFactory
 import com.vinivenditti.pointscards.games.bisca.adapter.PlayerGameAdapter
 import com.vinivenditti.pointscards.games.bisca.listener.BiscaListener
+import com.vinivenditti.pointscards.games.bisca.model.Points
+import com.vinivenditti.pointscards.games.bisca.model.ScoreBiscaModel
 import com.vinivenditti.pointscards.start.StartViewModelSingleton
 
 class PointsFragment : Fragment() {
@@ -24,7 +29,7 @@ class PointsFragment : Fragment() {
         val biscaViewModelFactory = BiscaViewModelFactory(StartViewModelSingleton.getInstance(requireActivity()))
         ViewModelProvider(requireActivity(), biscaViewModelFactory)[BiscaViewModel::class.java]
     }
-    private val pointsViewModel: PointsViewModel = PointsViewModel()
+
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -38,7 +43,7 @@ class PointsFragment : Fragment() {
                 biscaViewModel.updatePlayer(player)
             }
         }
-        pointsViewModel.calculateTotalRounds(biscaViewModel.players.value!!)
+        binding.progressGame.max = biscaViewModel.limitRound
         adapter.attachListener(listener)
         addListeners()
         observe()
@@ -48,7 +53,6 @@ class PointsFragment : Fragment() {
     private fun addListeners() {
         binding.buttonCalculate.setOnClickListener {
             if(verifyEditText()){
-                pointsViewModel.calculateRound()
                 biscaViewModel.calculatePoints()
             } else Toast.makeText(context, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
         }
@@ -66,14 +70,22 @@ class PointsFragment : Fragment() {
     }
 
     fun observe() {
-        pointsViewModel.round.observe(viewLifecycleOwner) {
-            binding.textRound.text = "Rodada $it"
+        biscaViewModel.round.observe(viewLifecycleOwner) {
+            binding.textRound.text = getString(R.string.text_round).plus(it.toString())
+            binding.progressGame.progress = it
             if (it == 0) {
                 binding.buttonCalculate.isEnabled = false
             }
         }
-        pointsViewModel.statusGame.observe(viewLifecycleOwner) {
-            binding.textRoundDirection.text = it
+        biscaViewModel.statusGame.observe(viewLifecycleOwner) {
+            when (it) {
+                "repetir" -> {
+                    binding.progressGame.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.md_theme_tertiaryFixedDim_highContrast, null))
+                }
+                "descendo" -> {
+                    binding.progressGame.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.md_theme_error, null))
+                }
+            }
         }
         biscaViewModel.players.observe(viewLifecycleOwner) {
             binding.recyclerViewPlayers.post {
@@ -84,7 +96,6 @@ class PointsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         _binding = null
     }
 }

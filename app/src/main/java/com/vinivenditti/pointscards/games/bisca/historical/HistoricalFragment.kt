@@ -17,13 +17,14 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.vinivenditti.pointscards.databinding.FragmentHistoricalBinding
 import com.vinivenditti.pointscards.games.bisca.score.ScoreAdapter
+import com.vinivenditti.pointscards.repository.FirebaseRepository
 
 class HistoricalFragment : Fragment() {
 
     private var _binding: FragmentHistoricalBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HistoricalViewModel by viewModels()
-    private val database = Firebase.database.reference
+    private val database = FirebaseRepository()
     private val phoneId: String by lazy { Settings.Secure.getString(requireActivity().contentResolver, Settings.Secure.ANDROID_ID) }
     private val adapter: ScoreAdapter by lazy { ScoreAdapter() }
 
@@ -48,7 +49,7 @@ class HistoricalFragment : Fragment() {
         binding.spinnerDay.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 viewModel.setDay(parent?.getItemAtPosition(position).toString())
-                uploadMatchs(parent?.getItemAtPosition(position).toString())
+                uploadMatches(parent?.getItemAtPosition(position).toString())
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -61,44 +62,24 @@ class HistoricalFragment : Fragment() {
     }
 
     private fun uploadDays() {
-        val days = mutableListOf<String>()
-
-        database.child(phoneId).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                days.clear()
-                for (dado in snapshot.children) {
-                    val day = dado.key
-                    day?.let { days.add(it) }
-                }
-                days.ifEmpty {
-                    binding.textNullMatches.visibility = View.VISIBLE
-                    binding.recyclerViewPlayers.visibility = View.GONE
-                    binding.spinnerDay.visibility = View.GONE
-                    binding.spinnerMatch.visibility = View.GONE
-                }
-                val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, days)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                binding.spinnerDay.adapter = adapter
+        database.uploadDays(phoneId) {
+            it.ifEmpty {
+                binding.textNullMatches.visibility = View.VISIBLE
+                binding.recyclerViewPlayers.visibility = View.GONE
+                binding.spinnerDay.visibility = View.GONE
+                binding.spinnerMatch.visibility = View.GONE
             }
-            override fun onCancelled(error: DatabaseError) {}
-        })
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, it)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerDay.adapter = adapter
+        }
     }
 
-    private fun uploadMatchs(day: String) {
-        database.child(phoneId).child(day).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val games = mutableListOf<String>()
-                for (dado in snapshot.children) {
-                    val game = dado.key
-                    game?.let { games.add(it) }
-                }
-                val adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, games)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                binding.spinnerMatch.adapter = adapter
-            }
-
-            override fun onCancelled(error: DatabaseError) {}
-
-        })
+    private fun uploadMatches(day: String) {
+        database.uploadMatches(phoneId, day) {
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, it)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.spinnerMatch.adapter = adapter
+        }
     }
 }

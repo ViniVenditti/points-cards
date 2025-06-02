@@ -3,6 +3,7 @@ package com.vinivenditti.pointscards.start
 import android.content.Intent
 import android.graphics.Canvas
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
 import android.widget.AdapterView
@@ -23,6 +24,7 @@ import com.vinivenditti.pointscards.games.bisca.BiscaActivity
 import com.vinivenditti.pointscards.games.cacheta.CachetaActivity
 import com.vinivenditti.pointscards.games.tranca.TrancaActivity
 import com.vinivenditti.pointscards.games.truco.TrucoActivity
+import com.vinivenditti.pointscards.repository.FirebaseRepository
 import com.vinivenditti.pointscards.start.adapter.PlayerAdapter
 import com.vinivenditti.pointscards.start.listener.PlayerListener
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
@@ -32,6 +34,8 @@ class StartActivity : AppCompatActivity() {
     private val binding: ActivityStartBinding by lazy { ActivityStartBinding.inflate(layoutInflater) }
     private val adapter: PlayerAdapter by lazy { PlayerAdapter() }
     private lateinit var startViewModel: StartViewModel
+    private val phoneId: String by lazy { Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID) }
+    private val database = FirebaseRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +48,7 @@ class StartActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         startViewModel = StartViewModelSingleton.getInstance(this)
+        //startViewModel.clearContinueGame()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -52,6 +57,7 @@ class StartActivity : AppCompatActivity() {
         }
         binding.recyclerViewPlayers.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewPlayers.adapter = adapter
+
 
         val listener = object : PlayerListener {
             override fun deletePlayer(name: String) {
@@ -88,6 +94,28 @@ class StartActivity : AppCompatActivity() {
         observe()
     }
 
+    private fun verifyGame() {
+        database.verifyGame(phoneId) {
+            if(!it.second.isEmpty()){
+                AlertDialog.Builder(this@StartActivity)
+                    .setTitle("Jogo em andamento")
+                    .setMessage("Existe um jogo não finalizado com os jogadores" +
+                            " ${it.second.joinToString { player -> player.name }} " +
+                            "\nDeseja continuar?"
+                    )
+                    .setPositiveButton("Sim") { _, _ ->
+                            startViewModel.setContinueGame(it) {
+                            startActivity(Intent(this@StartActivity, BiscaActivity::class.java))
+                        }
+                    }
+                    .setNegativeButton("Não") { _,_ ->
+                        startViewModel.clearContinueGame(it.first)
+                    }
+                    .show()
+            }
+        }
+    }
+
     private fun observe() {
         startViewModel.listPlayers.observe(this) {
             adapter.updateList(it)
@@ -106,6 +134,7 @@ class StartActivity : AppCompatActivity() {
         binding.spinnerGame.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
                 when (pos) {
+                    1 -> verifyGame()
                     3 -> AlertDialog.Builder(this@StartActivity)
                         .setTitle("Jogar Tranca/Buraco?")
                         .setMessage("Deseja iniciar um jogo de tranca/buraco?")
@@ -141,6 +170,13 @@ class StartActivity : AppCompatActivity() {
                 }
             }
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.spinnerGame.setSelection(0)
+         //startViewModel.clearContinueGame()
     }
 
 }

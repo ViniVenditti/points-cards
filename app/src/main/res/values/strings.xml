@@ -9,7 +9,7 @@
     <string name="description_list_players">Lista de jogadores</string>
     <string name="start_game">Começar!</string>
     <string name="bisca">Bisca</string>
-    <string name="text_round">Rodada 1</string>
+    <string name="text_round">Rodada </string>
     <string name="text_status_game">subindo</string>
     <string name="calculate">Calcular</string>
     <string name="overall_score">Placar Geral</string>

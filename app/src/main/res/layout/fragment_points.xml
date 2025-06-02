@@ -26,23 +26,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="10dp"
         android:text="@string/text_round"
         android:textSize="22sp"
-        app:layout_constraintEnd_toStartOf="@+id/text_round_direction"
+        app:layout_constraintEnd_toStartOf="@+id/progress_game"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_game" />
 
-    <TextView
-        android:id="@+id/text_round_direction"
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:id="@+id/progress_game"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="@string/text_status_game"
-        android:textSize="22sp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progress="17"
+        android:max="34"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/text_round"
         app:layout_constraintStart_toEndOf="@+id/text_round"
-        app:layout_constraintTop_toBottomOf="@+id/text_game" />
+        app:layout_constraintBottom_toBottomOf="@+id/text_round"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_players"

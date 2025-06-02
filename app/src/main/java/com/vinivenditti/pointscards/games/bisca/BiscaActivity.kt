@@ -42,7 +42,6 @@ class BiscaActivity : AppCompatActivity() {
             navigationBarStyle = SystemBarStyle.light(colorId,colorId))
 
         viewModel.setPhoneId(Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID))
-        viewModel.setMatch()
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -50,7 +49,6 @@ class BiscaActivity : AppCompatActivity() {
                     .setTitle("Sair do jogo")
                     .setMessage("Deseja sair do jogo?")
                     .setPositiveButton("Sim") { _, _ ->
-                        StartViewModelSingleton.getInstance(this@BiscaActivity)
                         finish()
                     }
                     .setNegativeButton("Não", null)

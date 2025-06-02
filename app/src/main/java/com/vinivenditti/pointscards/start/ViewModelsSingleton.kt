@@ -15,12 +15,3 @@ object StartViewModelSingleton {
         }
     }
 }
-
-object DataSingleton {
-    private val _sharedData = MutableLiveData<List<PlayerModel>>()
-    val sharedData: LiveData<List<PlayerModel>> get() = _sharedData
-
-    fun updateData(players: List<PlayerModel>) {
-        _sharedData.postValue(players)
-    }
-}
