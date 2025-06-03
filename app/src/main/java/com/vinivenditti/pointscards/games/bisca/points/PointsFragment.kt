@@ -79,6 +79,9 @@ class PointsFragment : Fragment() {
         }
         biscaViewModel.statusGame.observe(viewLifecycleOwner) {
             when (it) {
+                "subindo" -> {
+                    binding.progressGame.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.md_theme_primary, null))
+                }
                 "repetir" -> {
                     binding.progressGame.progressTintList = ColorStateList.valueOf(resources.getColor(R.color.md_theme_tertiaryFixedDim_highContrast, null))
                 }

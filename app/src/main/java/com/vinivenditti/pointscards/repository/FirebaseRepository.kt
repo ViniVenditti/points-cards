@@ -82,7 +82,7 @@ class FirebaseRepository {
                     val lastMatch = snapshot.children.lastOrNull()?.children?.lastOrNull()
                     val players = lastMatch?.getValue(typeIndicator) ?: emptyList()
                     val match = lastMatch?.key?.toIntOrNull() ?: 0
-                    val day = snapshot.children.last().key ?: LocalDate.now().toString()
+                    val day = snapshot.children.lastOrNull()?.key ?: LocalDate.now().toString()
                     callback(Pair(Pair(day, "true"), MatchModel(match = match, listPlayers = players)))
                 }
                 override fun onCancelled(error: DatabaseError) {}
