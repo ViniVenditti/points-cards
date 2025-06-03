@@ -48,7 +48,6 @@ class StartActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         startViewModel = StartViewModelSingleton.getInstance(this)
-        //startViewModel.clearContinueGame()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -96,11 +95,11 @@ class StartActivity : AppCompatActivity() {
 
     private fun verifyGame() {
         database.verifyGame(phoneId) {
-            if(!it.second.isEmpty()){
+            if(it.second.listPlayers.isNotEmpty()){
                 AlertDialog.Builder(this@StartActivity)
                     .setTitle("Jogo em andamento")
                     .setMessage("Existe um jogo não finalizado com os jogadores" +
-                            " ${it.second.joinToString { player -> player.name }} " +
+                            " ${it.second.listPlayers.joinToString { player -> player.name }} " +
                             "\nDeseja continuar?"
                     )
                     .setPositiveButton("Sim") { _, _ ->
@@ -109,7 +108,7 @@ class StartActivity : AppCompatActivity() {
                         }
                     }
                     .setNegativeButton("Não") { _,_ ->
-                        startViewModel.clearContinueGame(it.first)
+                        startViewModel.clearContinueGame(it.second.match)
                     }
                     .show()
             }

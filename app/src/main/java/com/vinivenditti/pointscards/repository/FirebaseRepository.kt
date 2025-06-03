@@ -6,6 +6,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
+import com.vinivenditti.pointscards.games.bisca.model.MatchModel
 import com.vinivenditti.pointscards.games.bisca.model.ScoreBiscaModel
 import java.time.LocalDate
 
@@ -71,19 +72,18 @@ class FirebaseRepository {
             })
     }
 
-    fun verifyGame(phoneId: String, callback: (Pair<MutableMap<String, String>, List<ScoreBiscaModel>>) -> Unit) {
+    fun verifyGame(phoneId: String, callback: (Pair<Pair<String, String>, MatchModel>) -> Unit) {
         reference.child(phoneId)
             .orderByKey()
             .limitToLast(1)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val typeIndicator = object : GenericTypeIndicator<List<ScoreBiscaModel>>() {}
-                    val players = snapshot.children.lastOrNull()
-                        ?.children?.lastOrNull()
-                        ?.getValue(typeIndicator) ?: emptyList<ScoreBiscaModel>()
+                    val lastMatch = snapshot.children.lastOrNull()?.children?.lastOrNull()
+                    val players = lastMatch?.getValue(typeIndicator) ?: emptyList()
+                    val match = lastMatch?.key?.toIntOrNull() ?: 0
                     val day = snapshot.children.last().key ?: LocalDate.now().toString()
-                    val match = snapshot.children.last().children.last().key ?: "0"
-                    callback(Pair(mutableMapOf("day" to day,"match" to match, "continue" to "true"), players))
+                    callback(Pair(Pair(day, "true"), MatchModel(match = match, listPlayers = players)))
                 }
                 override fun onCancelled(error: DatabaseError) {}
             })

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.vinivenditti.pointscards.games.bisca.model.MatchModel
 import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import com.vinivenditti.pointscards.games.bisca.model.Points
 import com.vinivenditti.pointscards.games.bisca.model.ScoreBiscaModel
@@ -57,19 +58,19 @@ class BiscaViewModel(startViewModel: StartViewModel) : ViewModel() {
         }
     }
 
-    val continueGame = MediatorLiveData<Pair<MutableMap<String, String>, List<ScoreBiscaModel>?>>().apply {
+    val continueGame = MediatorLiveData<Pair<Pair<String, String>, MatchModel>>().apply {
         setContinueGame(startViewModel.continueGame)
     }
 
-    private fun setContinueGame(data: LiveData<Pair<MutableMap<String, String>, List<ScoreBiscaModel>?>>) {
+    private fun setContinueGame(data: LiveData<Pair<Pair<String, String>, MatchModel>>) {
         data.observeForever { it ->
-            day = it.first["day"].toString()
-            match = it.first["match"].toString().toInt()
-            val isGameUnfinished = it.second?.takeIf { it.isNotEmpty() }
+            day = it.first.first
+            match = it.second.match
+            val isGameUnfinished = it.second.listPlayers.takeIf { it.isNotEmpty() }
                 ?.let { 52.floorDiv(it.size).times(2) > it[0].listPoints.size } == true
-            if (isGameUnfinished && it.first["continue"] == "true") {
-                _listPoints.value = it.second
-                _players.value = it.second!!.map { player ->
+            if (isGameUnfinished && it.first.second == "true") {
+                _listPoints.value = it.second.listPlayers
+                _players.value = it.second.listPlayers.map { player ->
                     PlayerModel(
                         name = player.name,
                         score = player.listPoints.last().score,
@@ -77,14 +78,14 @@ class BiscaViewModel(startViewModel: StartViewModel) : ViewModel() {
                         done = player.listPoints.last().done
                     )
                 }
-                calculateLimitRound(it.second!!.size)
-                setStatusGame(it.second!![0].listPoints)
-                _round.value = calculateRound(it.second!![0].listPoints.last().round)
+                calculateLimitRound(it.second.listPlayers.size)
+                setStatusGame(it.second.listPlayers[0].listPoints)
+                _round.value = calculateRound(it.second.listPlayers[0].listPoints.last().round)
                 _score.value = _players.value
             } else {
                 calculateLimitRound(_listPoints.value!!.size)
-                savePlayers()
             }
+
         }
     }
 
@@ -110,14 +111,6 @@ class BiscaViewModel(startViewModel: StartViewModel) : ViewModel() {
     }
 
     fun setPhoneId(phoneId: String) { this.phoneId = phoneId }
-
-    fun setMatch() {
-        database.setMatch(phoneId) {
-            match = it+1
-            calculateLimitRound(_listPoints.value!!.size)
-            savePlayers()
-        }
-    }
 
     fun savePlayers() {
         database.savePlayers(phoneId, day, match.toString(), _listPoints.value!!)

@@ -1,9 +1,10 @@
 package com.vinivenditti.pointscards.games.bisca.model
 
-data class ListScoreBiscaModel(
-    val list: List<ScoreBiscaModel>
-){
-    constructor() : this(emptyList())
+data class MatchModel(
+    val match: Int,
+    val listPlayers: List<ScoreBiscaModel>
+) {
+    constructor() : this(0, emptyList())
 }
 
 data class ScoreBiscaModel(
