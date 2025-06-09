@@ -42,6 +42,7 @@ class StartActivity : AppCompatActivity() {
         val colorId = ContextCompat.getColor(this, R.color.md_theme_primary)
         enableEdgeToEdge(statusBarStyle = SystemBarStyle.light(colorId, colorId),
             navigationBarStyle = SystemBarStyle.light(colorId,colorId))
+        database.loginUser()
 
         supportActionBar?.hide()
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
