@@ -71,7 +71,7 @@ class PointsFragment : Fragment() {
 
     fun observe() {
         biscaViewModel.round.observe(viewLifecycleOwner) {
-            binding.textRound.text = getString(R.string.text_round).plus(it.toString())
+            binding.textRound.text = getString(R.string.text_round).plus(" ").plus(it.toString())
             binding.progressGame.progress = it
             if (it == 0) {
                 binding.buttonCalculate.isEnabled = false

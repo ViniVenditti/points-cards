@@ -6,8 +6,7 @@
     android:layout_marginEnd="16dp"
     android:layout_marginTop="5dp"
     android:orientation="horizontal"
-    android:background="@drawable/container_points"
-    >
+    android:background="@drawable/container_points">
 
     <TextView
         android:id="@+id/textPlayer"
@@ -33,21 +32,24 @@
             android:hint="@string/hint_doing"
             android:singleLine="true"
             android:inputType="number"
+            android:maxLength="2"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="wrap_content"
         android:layout_weight="1"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/text_edit_done">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_done"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/hint_done"
-            android:singleLine="true"
             android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="2"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
