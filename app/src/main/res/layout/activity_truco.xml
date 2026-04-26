@@ -94,7 +94,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_reset"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_of="@+id/btn_plus1_we"
             app:layout_constraintStart_toEndOf="@+id/btn_plus1_we"
             app:layout_constraintTop_toTopOf="parent" />
 
