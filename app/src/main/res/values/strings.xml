@@ -27,6 +27,13 @@
     <string name="hint_done">Fez</string>
     <string name="title_historical">Historico</string>
     <string name="text_null_matches">Você ainda não jogou uma partida!!</string>
+    <string name="plus_one">+1</string>
+    <string name="plus_three">+3</string>
+    <string name="reset">Resetar</string>
+    <string name="reset_dialog_title">Reiniciar partida</string>
+    <string name="reset_dialog_message">Tem certeza que deseja zerar o placar?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 
     <string-array name="list_games">
         <item></item>
