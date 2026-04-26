@@ -17,13 +17,6 @@ class FirebaseRepository {
 
     fun loginUser() {
         auth.signInWithEmailAndPassword("viinivenditti@gmail.com", "Bisca159753*/")
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // User logged in successfully
-                } else {
-                    // Handle login failure
-                }
-            }
     }
 
     fun getListPointsHistorical(

@@ -1,7 +1,6 @@
 package com.vinivenditti.pointscards.games.bisca.points
 
 import android.content.res.ColorStateList
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vinivenditti.pointscards.R
 import com.vinivenditti.pointscards.databinding.FragmentPointsBinding
-import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import com.vinivenditti.pointscards.games.bisca.BiscaViewModel
 import com.vinivenditti.pointscards.games.bisca.BiscaViewModelFactory
 import com.vinivenditti.pointscards.games.bisca.adapter.PlayerGameAdapter
 import com.vinivenditti.pointscards.games.bisca.listener.BiscaListener
-import com.vinivenditti.pointscards.games.bisca.model.Points
-import com.vinivenditti.pointscards.games.bisca.model.ScoreBiscaModel
+import com.vinivenditti.pointscards.games.bisca.model.PlayerModel
 import com.vinivenditti.pointscards.start.StartViewModelSingleton
 
 class PointsFragment : Fragment() {
